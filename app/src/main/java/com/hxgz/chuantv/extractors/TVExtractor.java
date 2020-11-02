@@ -32,5 +32,5 @@ public interface TVExtractor {
     /**
      * 片名搜索
      */
-    List<VideoInfoDO> search(String word, int page);
+    List<VideoInfoDO> search(String word, int page) throws Exception;
 }

@@ -42,6 +42,7 @@ public class RecyclerViewPresenter extends OpenPresenter {
 
     public void clearData() {
         labels.clear();
+        this.mAdapter.notifyDataSetChanged();
     }
 
     public VideoInfoDO getData(int position) {
