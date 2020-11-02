@@ -1,0 +1,76 @@
+{
+  "navItemDOList": [
+    {
+      "navId": "R1",
+      "title": "推荐"
+    },
+    {
+      "navId": "film",
+      "title": "电影"
+    },
+    {
+      "navId": "tv",
+      "title": "电视剧"
+    },
+    {
+      "navId": "picture",
+      "title": "动漫"
+    },
+    {
+      "navId": "fa",
+      "title": "综艺"
+    }
+  ],
+  "sectionItemDOList": [
+    {
+      "videoInfoDOList": [
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "棋魂"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "亲爱的设计师"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231234",
+          "title": "侦探语录"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "九流霸主"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "如意芳霏"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "黑色灯塔"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "瞄准"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "从结婚开始恋爱"
+        },
+        {
+          "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+          "videoId": "1231231",
+          "title": "金刚川"
+        }
+      ],
+      "title": "热播"
+    }
+  ]
+}

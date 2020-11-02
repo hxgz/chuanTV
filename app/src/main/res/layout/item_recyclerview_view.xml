@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--focusableInTouchMode只是测试鼠标效果-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:focusableInTouchMode="true"
+                android:duplicateParentState="true"
+                android:focusable="true"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+    <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:scaleType="fitXY">
+    </ImageView>
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:gravity="center"
+            android:text="item1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:background="@color/white_70"
+            android:textSize="20sp"
+
+            android:layout_below="@id/imageView"
+    />
+
+</RelativeLayout>

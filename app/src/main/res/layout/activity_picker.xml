@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/backgroud"
+        tools:context=".PickerActivity">
+
+    <LinearLayout
+            android:id="@+id/tvPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/ListSectionView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+                android:id="@+id/recyclerView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:padding="20dp"
+                android:paddingTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:descendantFocusability="afterDescendants"/>
+        <ProgressBar
+                android:id="@+id/load_more_pb"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:layout_marginTop="50dp"
+                android:layout_width="40dp"
+                android:layout_height="50dp"/>
+    </LinearLayout>
+    <!-- 最顶层边框 -->
+
+    <com.open.androidtvwidget.view.MainUpView
+            android:id="@+id/mainUpView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:isScrollContainer="true"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#292C30"
+              android:paddingBottom="10dp"
+              android:paddingTop="10dp"
+              android:paddingLeft="30dp"
+              android:paddingRight="30dp"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="center">
+            <VideoView
+                    android:id="@+id/VideoPreview"
+                    android:layout_width="match_parent"
+                    android:focusable="true"
+                    android:background="@drawable/selector_border"
+                    android:layout_height="300dp">
+            </VideoView>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/videoTitle"
+                    android:textSize="@dimen/h_60"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/videoAliasTitle"
+                    android:textColor="@color/white_90"
+                    android:textSize="@dimen/h_30"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/videoNotify"
+                    android:textColor="@color/yellow_90"
+                    android:textSize="@dimen/h_25"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                    android:id="@+id/videoAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+            </LinearLayout>
+
+            <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/videoDesc"
+                    android:text=""
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white_70"
+                    android:textSize="@dimen/h_30"
+                    android:singleLine="false"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+            />
+
+
+            <LinearLayout
+                    android:id="@+id/VideoTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+            </LinearLayout>
+
+            <Button
+                    android:id="@+id/btnfullScreen"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_select"
+                    android:textColor="@color/white_70"
+                    android:text="全屏"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+            android:text="剧集列表"
+            android:textSize="@dimen/h_50"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:fadingEdge="vertical">
+
+        <LinearLayout
+                android:isScrollContainer="true"
+                android:id="@+id/showList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

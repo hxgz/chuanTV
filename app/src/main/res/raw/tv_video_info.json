@@ -1,0 +1,52 @@
+{
+  "infoDO": {
+    "imgUrl": "http://puui.qpic.cn/vcover_vt_pic/0/mzc00200cn03y011603849355938/260",
+    "tagList": [
+      "剧情",
+      "悬疑"
+    ],
+    "aliasTitle": "分身",
+    "year": "2020",
+    "actorList": [
+      "高至霆",
+      "张鑫",
+      "王泷正",
+      "曲高位"
+    ],
+    "title": "侦探语录",
+    "desc": "1911年，辛亥革命前夕，位于天津郊外的一个偏远县城福元县宋府发生了一系列连环杀人案件，天津警务公所谭伯顿等人赶往福元县侦破此案。",
+    "status": "完结"
+  },
+  "fileDOList": [
+    {
+      "show": "线路一",
+      "videoFileDOList": [
+        {
+          "title": "1",
+          "url": "https://mingxing.xianyongjiu.com/20201025/15243_65afbc59/index.m3u8"
+        },
+        {
+          "title": "2",
+          "url": "https://mingxing.xianyongjiu.com/20201025/15244_fdc63bb5/index.m3u8"
+        }
+      ]
+    },
+    {
+      "show": "线路二",
+      "videoFileDOList": [
+        {
+          "title": "1",
+          "url": "https://mingxing.xianyongjiu.com/20201025/15243_65afbc59/index.m3u8"
+        },
+        {
+          "title": "2",
+          "url": "https://mingxing.xianyongjiu.com/20201025/15244_fdc63bb5/index.m3u8"
+        },
+        {
+          "title": "3",
+          "url": "https://mingxing.xianyongjiu.com/20201025/15245_c60a8020/index.m3u8"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "topic": "channel",
+    "defaultSelectItemValue": "2",
+    "itemList": [
+      {
+        "value": "2",
+        "show": "电视剧",
+        "childrenList": [
+          {
+            "value": "12",
+            "show": "大陆剧"
+          },
+          {
+            "value": "13",
+            "show": "港台剧"
+          },
+          {
+            "value": "14",
+            "show": "日韩剧"
+          },
+          {
+            "value": "15",
+            "show": "欧美剧"
+          },
+          {
+            "value": "17",
+            "show": "新马泰"
+          }
+        ]
+      },
+      {
+        "value": "1",
+        "show": "电影",
+        "childrenList": [
+          {
+            "value": "5",
+            "show": "动作片"
+          },
+          {
+            "value": "6",
+            "show": "喜剧片"
+          },
+          {
+            "value": "7",
+            "show": "爱情片"
+          },
+          {
+            "value": "8",
+            "show": "科幻片"
+          },
+          {
+            "value": "9",
+            "show": "恐怖片"
+          },
+          {
+            "value": "10",
+            "show": "剧情片"
+          },
+          {
+            "value": "11",
+            "show": "战争片"
+          },
+          {
+            "value": "16",
+            "show": "纪录片"
+          }
+        ]
+      },
+      {
+        "value": "4",
+        "show": "综艺"
+      },
+      {
+        "value": "3",
+        "show": "动漫"
+      }
+    ]
+  },
+  {
+    "topic": "sort",
+    "defaultSelectItemValue": "time",
+    "itemList": [
+      {
+        "value": "time",
+        "show": "时间"
+      },
+      {
+        "value": "hits",
+        "show": "人气"
+      },
+      {
+        "value": "score",
+        "show": "评分"
+      }
+    ]
+  }
+]

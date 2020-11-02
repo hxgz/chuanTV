@@ -1,0 +1,3 @@
+include ':androidtvwidget', ":app"
+
+rootProject.name = 'chuanTV'
