@@ -1,6 +1,7 @@
 package com.hxgz.chuantv.utils;
 
 import android.content.Context;
+import android.os.Looper;
 import android.widget.Toast;
 
 /**
@@ -9,8 +10,10 @@ import android.widget.Toast;
  * @description：
  */
 public class NoticeUtil {
-    private static void show(Context context, String msg) {
+    public static void show(Context context, String msg) {
+        Looper.prepare();
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        Looper.loop();
     }
 }
 

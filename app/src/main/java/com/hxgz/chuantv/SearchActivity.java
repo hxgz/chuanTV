@@ -18,9 +18,8 @@ import com.hxgz.chuantv.dataobject.*;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
+import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
-import com.hxgz.chuantv.widget.ImageCardView.TestMoviceListPresenter;
-import com.hxgz.chuantv.widget.textview.ListPickerTextView;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
 import com.open.androidtvwidget.leanback.mode.*;
@@ -138,18 +137,23 @@ public class SearchActivity extends Activity implements RecyclerViewTV.OnItemLis
             @SneakyThrows
             @Override
             public void run() {
-                final List<VideoInfoDO> videoInfoDOList = tvExtractor.search(text, pageSize++);
-                if (CollectionUtils.isEmpty(videoInfoDOList)) {
-                    noMore = true;
+                try {
+                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.search(text, pageSize++);
+                    if (CollectionUtils.isEmpty(videoInfoDOList)) {
+                        noMore = true;
+                        return;
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRecyclerViewPresenter.addDatas(videoInfoDOList);
+                            mRecyclerView.setOnLoadMoreComplete();
+                        }
+                    });
+                } catch (Exception e) {
+                    NoticeUtil.show(SearchActivity.this, "发生异常,请重试");
                     return;
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerViewPresenter.addDatas(videoInfoDOList);
-                        mRecyclerView.setOnLoadMoreComplete();
-                    }
-                });
             }
         }).start();
     }

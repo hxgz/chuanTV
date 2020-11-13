@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/backgroud"
+        android:background="@drawable/background_gradient"
         tools:context=".HomeActivity">
 
     <RelativeLayout
@@ -23,7 +23,7 @@
                 android:padding="5dp"
                 android:gravity="center"
                 android:focusable="true"
-                android:background="@drawable/textview_action_select"/>
+                android:background="@drawable/search_border_select"/>
     </RelativeLayout>
     <com.owen.tab.TvTabLayout
             android:id="@+id/navTab"

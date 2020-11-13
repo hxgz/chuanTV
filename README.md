@@ -25,6 +25,9 @@ android TV 的demo版
 * 自定义tab，图片，ListView，等相关widget。目前这块代码有点乱，很多样式写在java代码里了
 * 全屏播放弹出控制栏，支持切换集数，视频控制等
 
+https://www.jianshu.com/p/705a6cb6bfee
+https://www.jianshu.com/p/1fac598febc1
+https://www.jianshu.com/p/a48960270849
 ## 效果展现
 
 ![首页，tab](images/home.png)

@@ -13,6 +13,7 @@ import com.hxgz.chuantv.dataobject.VideoDetailDO;
 import com.hxgz.chuantv.dataobject.VideoPlayRuntimeDO;
 import com.hxgz.chuantv.utils.IntentUtil;
 
+//https://cloud.tencent.com/developer/article/1384945
 public class VideoPlayActivity extends Activity {
     Button btn;
     VideoView videoView = null;
@@ -29,7 +30,7 @@ public class VideoPlayActivity extends Activity {
         videoDetailDO = (VideoDetailDO) IntentUtil.getData(getIntent(), "videoDetailDO");
 
         setContentView(R.layout.activity_video_play);
-        progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+        progressDialog = ProgressDialog.show(this, "", "Loading...", true, true);
         videoView = (VideoView) findViewById(R.id.VideoViewfull);
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);

@@ -15,6 +15,7 @@ import com.hxgz.chuantv.dataobject.VideoSectionPageDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
+import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.TestMoviceListPresenter;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
@@ -142,7 +143,12 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
             @SneakyThrows
             @Override
             public void run() {
-                videoSectionPageDO = tvExtractor.previewNav(navId);
+                try {
+                    videoSectionPageDO = tvExtractor.previewNav(navId);
+                } catch (Exception e) {
+                    NoticeUtil.show(HomeActivity.this, "发生异常,请重试");
+                    return;
+                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -180,7 +186,7 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
 
                         mListRowPresenter.setItems(sectionViewList);
                         mRecyclerView.getAdapter().notifyDataSetChanged();
-                        mListRowPresenter.setDefaultPos(0, 0); // 设置默认选中.
+                        //mListRowPresenter.setDefaultPos(0, 0); // 设置默认选中.
 
                     }
                 });

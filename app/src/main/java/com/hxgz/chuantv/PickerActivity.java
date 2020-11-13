@@ -9,7 +9,9 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hxgz.chuantv.dataobject.*;
 import com.hxgz.chuantv.extractors.TVExtractor;
+import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.utils.IntentUtil;
+import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
 import com.hxgz.chuantv.widget.textview.ListPickerTextView;
 import com.hxgz.chuantv.widget.textview.ObjectTextView;
@@ -19,6 +21,7 @@ import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.view.MainUpView;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
     List<ListPickerTextView> pickerViewList = new ArrayList<>();
     List<TVPickerDO> pickerDOList;
     Integer pickerPage;
-
+    boolean noMore;
     RecyclerViewTV mRecyclerView;
     RecyclerViewPresenter mRecyclerViewPresenter;
     RecyclerViewBridge mRecyclerViewBridge;
@@ -88,6 +91,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
                                 @Override
                                 public void onclick(ObjectTextView view) {
                                     PickerActivity.this.pickerPage = 1;
+                                    PickerActivity.this.noMore = false;
                                     mRecyclerViewPresenter.clearData();
                                     loadData();
                                 }
@@ -107,6 +111,10 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
     }
 
     private void loadData() {
+        if (noMore) {
+            return;
+        }
+
         List<TVPickParam> tvPickParamList = new ArrayList<>();
         for (ListPickerTextView pickerTextView : pickerViewList) {
             TVPickParam pickerData = pickerTextView.getPickerData();
@@ -117,20 +125,30 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
             @SneakyThrows
             @Override
             public void run() {
-                final List<VideoInfoDO> videoInfoDOList = tvExtractor.pickTV(tvPickParamList, pickerPage++);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerViewPresenter.addDatas(videoInfoDOList);
-                        mRecyclerView.setOnLoadMoreComplete();
+                try {
+                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.pickTV(tvPickParamList, pickerPage++);
+                    if (CollectionUtils.isEmpty(videoInfoDOList)) {
+                        PickerActivity.this.noMore = true;
+                        return;
                     }
-                });
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRecyclerViewPresenter.addDatas(videoInfoDOList);
+                            mRecyclerView.setOnLoadMoreComplete();
+                        }
+                    });
+                } catch (Exception e) {
+                    NoticeUtil.show(PickerActivity.this, "发生异常,请重试");
+                    return;
+                }
             }
         }).start();
     }
 
     private void initImageList(int orientation) {
+        noMore = false;
         pickerPage = 1;
 
         GridLayoutManagerTV gridlayoutManager = new GridLayoutManagerTV(this, 6); // 解决快速长按焦点丢失问题.

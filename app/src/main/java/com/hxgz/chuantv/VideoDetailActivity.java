@@ -5,17 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
-import com.alibaba.fastjson.JSON;
 import com.hxgz.chuantv.dataobject.*;
 import com.hxgz.chuantv.extractors.TVExtractor;
-import com.hxgz.chuantv.utils.DebugUtil;
-import com.hxgz.chuantv.utils.IntentUtil;
-import com.hxgz.chuantv.utils.LogUtil;
-import com.hxgz.chuantv.utils.ViewUtil;
-import com.hxgz.chuantv.widget.textview.ListTextView;
-import com.hxgz.chuantv.widget.textview.ObjectTextView;
+import com.hxgz.chuantv.utils.*;
+import com.hxgz.chuantv.widget.ScrollViewList;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,10 +28,7 @@ public class VideoDetailActivity extends Activity {
     VideoView videoView = null;
 
     VideoDetailDO videoDetailDO;
-
-    List<ListTextView> fileListView = new ArrayList<>();
-    int selectedPlatformPosition = -1; // 平台位置
-    int selectedVideoPosition = -1; // 平台对应的视频位置
+    List<ScrollViewList> fileViewLists = new ArrayList<>();
 
     final int REQUEST_CODE = 5000;
 
@@ -69,17 +63,24 @@ public class VideoDetailActivity extends Activity {
     }
 
     private void fullScreen() {
-        if (selectedPlatformPosition < 0 || selectedVideoPosition < 0) {
-            // TODO: 提示
-            return;
+        for (int i = 0; i < fileViewLists.size(); i++) {
+            ScrollViewList scrollViewList = fileViewLists.get(i);
+            for (int j = 0; j < scrollViewList.getAllItems().size(); j++) {
+                if (scrollViewList.getAllItems().get(j).isSelected()) {
+                    fullScreen(i, j, false);
+                }
+            }
         }
-        PlatformVideoFileDO.VideoFileDO videoFileDO = getSelectedVideoFile();
+    }
+
+    private void fullScreen(int platformPosition, int videoPosition, boolean startZero) {
+        PlatformVideoFileDO.VideoFileDO videoFileDO = getSelectedVideoFile(platformPosition, videoPosition);
 
         VideoPlayRuntimeDO videoPlayRuntimeDO = new VideoPlayRuntimeDO();
         videoPlayRuntimeDO.setUrl(videoFileDO.getUrl());
-        videoPlayRuntimeDO.setStartTime(videoView.getCurrentPosition());
-        videoPlayRuntimeDO.setSelectedPlatformPosition(selectedPlatformPosition);
-        videoPlayRuntimeDO.setSelectedVideoPosition(selectedVideoPosition);
+        videoPlayRuntimeDO.setStartTime(startZero ? 0 : videoView.getCurrentPosition());
+        videoPlayRuntimeDO.setSelectedPlatformPosition(platformPosition);
+        videoPlayRuntimeDO.setSelectedVideoPosition(videoPosition);
 
         Intent videointent = new Intent(VideoDetailActivity.this, VideoPlayActivity.class);
         IntentUtil.putData(videointent, "videoPlayRuntimeDO", videoPlayRuntimeDO);
@@ -93,8 +94,13 @@ public class VideoDetailActivity extends Activity {
             @SneakyThrows
             @Override
             public void run() {
-                videoDetailDO = tvExtractor.getVideo(videoInfoDO.getVideoId());
-
+                try {
+                    videoDetailDO = tvExtractor.getVideo(videoInfoDO.getVideoId());
+                } catch (Exception e) {
+                    NoticeUtil.show(VideoDetailActivity.this, "发生异常,请重试");
+                    return;
+                }
+                LogUtil.e(videoDetailDO.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -109,84 +115,71 @@ public class VideoDetailActivity extends Activity {
                         ((TextView) findViewById(R.id.videoNotify)).setText(
                                 infoDO.getYear() + "·" + infoDO.getStatus());
 
-                        LinearLayout anthorView = (LinearLayout) findViewById(R.id.videoAuthor);
-                        for (String actor : infoDO.getActorList()) {
-                            TextView textView = ViewUtil.getTextViewForShow(VideoDetailActivity.this);
-                            textView.setText(actor);
-                            anthorView.addView(textView);
-                        }
+                        ((TextView) findViewById(R.id.videoAuthor)).setText(
+                                String.join("  ", infoDO.getActorList())
+                        );
 
                         ((TextView) findViewById(R.id.videoDesc)).setText("简介：" + infoDO.getDesc());
 
-                        LinearLayout tagView = (LinearLayout) findViewById(R.id.VideoTag);
-                        for (String tag : infoDO.getTagList()) {
-                            TextView textView = ViewUtil.getTextViewForShow(VideoDetailActivity.this);
-                            textView.setText(tag);
-                            tagView.addView(textView);
-                        }
+                        ((TextView) findViewById(R.id.VideoTag)).setText(
+                                String.join("  ", infoDO.getTagList())
+                        );
 
                         // 剧集列表
                         LinearLayout showListView = (LinearLayout) findViewById(R.id.showList);
                         for (int i = 0; i < videoDetailDO.getFileDOList().size(); i++) {
                             PlatformVideoFileDO videoFileDO = videoDetailDO.getFileDOList().get(i);
+                            ScrollViewList scrollViewList = ScrollViewList.newInstance(VideoDetailActivity.this);
+                            scrollViewList.setItemResId(R.layout.widget_text_view);
+                            scrollViewList.setShowItemNum(10);
 
-                            ListTextView listView = new ListTextView();
-                            listView.setTag(videoFileDO.getShow());
-                            listView.setMItems(videoFileDO.getVideoFileDOList());
-                            fileListView.add(listView);
-                            final int index = i;
-                            listView.setMOnClickListen(new ListTextView.onClickListen() {
-                                @Override
-                                public void onclick(ObjectTextView view) {
-                                    ListTextView oldListView = VideoDetailActivity.this.getSelectedListView();
-                                    if (null != oldListView)
-                                        oldListView.unSelectedPosition();
-
-                                    VideoDetailActivity.this.startVideoPlay(index, view.getnIndex(), 0);
-                                }
+                            scrollViewList.setTitle(videoFileDO.getShow());
+                            videoFileDO.getVideoFileDOList().forEach(videoFileDO1 -> {
+                                TextView textView = (TextView) scrollViewList.newItem(videoFileDO1);
+                                textView.setText(videoFileDO1.getTitle());
                             });
 
-                            listView.addToView(showListView);
+                            final int index = i;
+                            scrollViewList.setMOnClickListen((view, data) -> {
+                                fileViewLists.forEach(scvl -> {
+                                    scvl.clearItemSelected();
+                                });
+                                int position = scrollViewList.getItemIndex(view);
+                                VideoDetailActivity.this.fullScreen(index, position, !view.isSelected());
+                            });
+                            showListView.addView(scrollViewList);
+
+                            fileViewLists.add(scrollViewList);
                         }
-                        VideoDetailActivity.this.startVideoPlay(0, 0, 0);
+
+                        VideoDetailActivity.this.previewVideoPlay(0, 0, 0);
                     }
                 });
             }
         }).start();
+
     }
 
-    private ListTextView getSelectedListView() {
-        try {
-            return fileListView.get(selectedPlatformPosition);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private PlatformVideoFileDO.VideoFileDO getSelectedVideoFile() {
+    private PlatformVideoFileDO.VideoFileDO getSelectedVideoFile(int platformPosition, int videoPosition) {
         try {
             return videoDetailDO.getFileDOList()
-                    .get(this.selectedPlatformPosition)
+                    .get(platformPosition)
                     .getVideoFileDOList()
-                    .get(this.selectedVideoPosition);
+                    .get(videoPosition);
         } catch (Exception e) {
             return null;
         }
     }
 
-    private void startVideoPlay(int platformPosition, int videoPosition, int startTime) {
-        this.selectedPlatformPosition = platformPosition;
-        this.selectedVideoPosition = videoPosition;
+    private void previewVideoPlay(int platformPosition, int videoPosition, int startTime) {
+        ScrollViewList scrollViewList = fileViewLists.get(platformPosition);
+        scrollViewList.selectItem(videoPosition);
 
-        ListTextView listView = getSelectedListView();
-        listView.setSelectedPosition(this.selectedVideoPosition);
-
-        PlatformVideoFileDO.VideoFileDO videoFileDO = getSelectedVideoFile();
+        PlatformVideoFileDO.VideoFileDO videoFileDO = getSelectedVideoFile(platformPosition, videoPosition);
         if (null == videoFileDO) {
-            LogUtil.e("plt:" + platformPosition + " vd:" + videoPosition + " tm:" + startTime);
-            // TODO:
             return;
         }
+
         if (null != videoView) {
             videoView.setVideoURI(Uri.parse(videoFileDO.getUrl()));
             videoView.start();
@@ -198,7 +191,7 @@ public class VideoDetailActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             VideoPlayRuntimeDO respPlayDO = (VideoPlayRuntimeDO) IntentUtil.getData(data, "response");
-            startVideoPlay(respPlayDO.getSelectedPlatformPosition(), respPlayDO.getSelectedVideoPosition(), respPlayDO.getStartTime());
+            previewVideoPlay(respPlayDO.getSelectedPlatformPosition(), respPlayDO.getSelectedVideoPosition(), respPlayDO.getStartTime());
         }
     }
 }

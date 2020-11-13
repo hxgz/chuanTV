@@ -27,6 +27,7 @@ import android.telephony.TelephonyManager;
 import java.io.File;
 
 import com.hxgz.chuantv.extractors.Demo;
+import com.hxgz.chuantv.extractors.Qiqi;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
