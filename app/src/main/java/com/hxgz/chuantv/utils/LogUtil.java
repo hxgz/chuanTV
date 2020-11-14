@@ -14,6 +14,11 @@ public class LogUtil {
         return Log.e(tag, msg);
     }
 
+    public static int d(String msg) {
+        final StackTraceElement[] stackTrace = new Exception().getStackTrace();
+        String tag = stackTrace[1].getClassName() + ":" + stackTrace[1].getMethodName();
+        return Log.d(tag, msg);
+    }
 }
 
     

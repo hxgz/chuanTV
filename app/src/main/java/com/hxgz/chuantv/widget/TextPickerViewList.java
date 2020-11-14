@@ -54,13 +54,13 @@ public class TextPickerViewList {
     }
 
     public void asView() {
-        int index = 0;
-        for (TVPickerDO.ItemDO item : tvPickerDO.getItemList()) {
+
+        for (int index = 0; index < tvPickerDO.getItemList().size(); index++) {
+            TVPickerDO.ItemDO item = tvPickerDO.getItemList().get(index);
             TextView textView = (TextView) scrollViewList.newItem(item);
             textView.setText(item.getShow());
-
             if (item.getValue().equals(tvPickerDO.getDefaultSelectItemValue())) {
-                setSelectedPosition(index++);
+                setSelectedPosition(index);
             }
         }
     }

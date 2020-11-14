@@ -10,6 +10,11 @@ import java.util.List;
  */
 public interface TVExtractor {
     /**
+     * 默认导航条
+     */
+    List<NavItemDO> defaultNav();
+
+    /**
      * 导航页
      */
     VideoSectionPageDO previewNav(String navId) throws Exception;

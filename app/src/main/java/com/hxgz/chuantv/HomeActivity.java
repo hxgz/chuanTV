@@ -24,9 +24,12 @@ import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.view.MainUpView;
 import com.owen.tab.TvTabLayout;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @author zhoujianwu
@@ -37,7 +40,10 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
     TVExtractor tvExtractor;
 
     TvTabLayout mTabLayout;
-    VideoSectionPageDO videoSectionPageDO;
+
+    List<NavItemDO> navItemDOList;
+    List<SectionItemDO> sectionItemDOList;
+    String currentNavId;
 
     MainUpView mMainUpView;
     RecyclerViewTV mRecyclerView;
@@ -67,27 +73,43 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
 
         initSection();
 
-        loadData(null);
-
+        if (CollectionUtils.isEmpty(navItemDOList)) {
+            loadData(null);
+        }
     }
 
     public float getDimension(int id) {
         return getResources().getDimension(id);
     }
 
+    public void drawTabs(int selectPosition) {
+        if (null != navItemDOList) {
+            for (int i = 0; i < navItemDOList.size(); i++) {
+                NavItemDO itemDO = navItemDOList.get(i);
+                TvTabLayout.Tab tab = mTabLayout.newTab().setText(itemDO.getTitle());
+                mTabLayout.addTab(tab, i == selectPosition);
+            }
+        }
+    }
+
     public void initTab() {
         mTabLayout = findViewById(R.id.navTab);
+
+        navItemDOList = tvExtractor.defaultNav();
+        drawTabs(0);
+
         mTabLayout.addOnTabSelectedListener(new TvTabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TvTabLayout.Tab tab) {
                 int position = tab.getPosition();
-
-                if (videoSectionPageDO == null || videoSectionPageDO.getNavItemDOList().size() == 0) {
+                if (CollectionUtils.isEmpty(navItemDOList)) {
                     return;
                 }
+                String navId = navItemDOList.get(position).getNavId();
 
-                if (mListRowPresenter != null) {
-                    loadData(videoSectionPageDO.getNavItemDOList().get(position).getNavId());
+                if (mListRowPresenter != null && !navId.equals(currentNavId)) {
+                    currentNavId = navId;
+                    loadData(currentNavId);
                 }
             }
 
@@ -97,8 +119,6 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
 
             @Override
             public void onTabReselected(TvTabLayout.Tab tab) {
-                LogUtil.e(String.valueOf("DDD"));
-
             }
         });
 
@@ -106,13 +126,14 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
             @Override
             public void onClick(View v) {
                 TvTabLayout tvTabLayout = (TvTabLayout) v;
-                NavItemDO itemDO = videoSectionPageDO.getNavItemDOList().get(tvTabLayout.getSelectedTabPosition());
+                NavItemDO itemDO = navItemDOList.get(tvTabLayout.getSelectedTabPosition());
 
                 Intent detailIntent = new Intent(HomeActivity.this, PickerActivity.class);
                 IntentUtil.putData(detailIntent, "refer", itemDO.getNavId());
                 startActivity(detailIntent);
             }
         });
+
     }
 
     public void initSection() {
@@ -143,8 +164,11 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
             @SneakyThrows
             @Override
             public void run() {
+                final VideoSectionPageDO videoSectionPageDO;
                 try {
+                    LogUtil.d("request navId:" + navId);
                     videoSectionPageDO = tvExtractor.previewNav(navId);
+                    sectionItemDOList = videoSectionPageDO.getSectionItemDOList();
                 } catch (Exception e) {
                     NoticeUtil.show(HomeActivity.this, "发生异常,请重试");
                     return;
@@ -153,17 +177,24 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (mTabLayout.getTabCount() == 0) {
-                            for (NavItemDO itemDO : videoSectionPageDO.getNavItemDOList()) {
-                                TvTabLayout.Tab tab = mTabLayout.newTab().setText(itemDO.getTitle());
-                                mTabLayout.addTab(tab);
-                            }
+                        // 导航变更
+                        List<NavItemDO> newNavList = videoSectionPageDO.getNavItemDOList();
+                        if (CollectionUtils.isNotEmpty(newNavList) && !newNavList.equals(navItemDOList)) {
+                            NavItemDO oldItemDO = navItemDOList.get(mTabLayout.getSelectedTabPosition());
+
+                            navItemDOList = newNavList;
+                            mTabLayout.removeAllTabs();
+                            drawTabs(newNavList.stream()
+                                    .map(NavItemDO::getNavId)
+                                    .collect(Collectors.toList())
+                                    .indexOf(oldItemDO.getNavId())
+                            );
                         }
                         //mTabLayout.selectTab(0);
 
                         // 榜单数据
                         sectionViewList.clear();
-                        for (SectionItemDO sectionItemDO : videoSectionPageDO.getSectionItemDOList()) {
+                        for (SectionItemDO sectionItemDO : sectionItemDOList) {
                             ListRow sectionRow = new ListRow(sectionItemDO.getTitle());
                             TestMoviceListPresenter presenter = new TestMoviceListPresenter();
                             presenter.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {

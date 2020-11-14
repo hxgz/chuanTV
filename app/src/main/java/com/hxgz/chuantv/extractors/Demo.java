@@ -13,9 +13,15 @@ import java.util.List;
  * @description：
  */
 public class Demo implements TVExtractor {
+
+    @Override
+    public List<NavItemDO> defaultNav() {
+        return FileUtil.getList(R.raw.tv_nav_list, NavItemDO.class);
+    }
+
     @Override
     public VideoSectionPageDO previewNav(String navId) {
-        return FileUtil.getObject(R.raw.tv_nav_list, VideoSectionPageDO.class);
+        return FileUtil.getObject(R.raw.tv_nav_video_list, VideoSectionPageDO.class);
     }
 
     @Override
