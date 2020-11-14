@@ -9,12 +9,11 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hxgz.chuantv.dataobject.*;
 import com.hxgz.chuantv.extractors.TVExtractor;
-import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.utils.IntentUtil;
+import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
-import com.hxgz.chuantv.widget.textview.ListPickerTextView;
-import com.hxgz.chuantv.widget.textview.ObjectTextView;
+import com.hxgz.chuantv.widget.TextPickerViewList;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
 import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
@@ -35,7 +34,8 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
 
     String refer;
 
-    List<ListPickerTextView> pickerViewList = new ArrayList<>();
+    List<TextPickerViewList> pickerViewList = new ArrayList<>();
+
     List<TVPickerDO> pickerDOList;
     Integer pickerPage;
     boolean noMore;
@@ -85,19 +85,19 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
                         for (int i = 0; i < pickerDOList.size(); i++) {
                             TVPickerDO pickerDO = pickerDOList.get(i);
 
-                            ListPickerTextView listView = new ListPickerTextView(pickerHolder);
+                            TextPickerViewList listView = new TextPickerViewList(pickerHolder);
                             listView.setTvPickerDO(pickerDO);
-                            listView.setMOnClickListen(new ListPickerTextView.onClickListen() {
+                            listView.setMOnClickListen(new TextPickerViewList.onClickListen() {
                                 @Override
-                                public void onclick(ObjectTextView view) {
+                                public void onclick(View view, Object data) {
                                     PickerActivity.this.pickerPage = 1;
                                     PickerActivity.this.noMore = false;
                                     mRecyclerViewPresenter.clearData();
                                     loadData();
                                 }
                             });
+                            listView.asView();
 
-                            listView.addToView();
                             pickerViewList.add(listView);
                         }
                     }
@@ -116,11 +116,11 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
         }
 
         List<TVPickParam> tvPickParamList = new ArrayList<>();
-        for (ListPickerTextView pickerTextView : pickerViewList) {
-            TVPickParam pickerData = pickerTextView.getPickerData();
+        for (TextPickerViewList pickerViewList : pickerViewList) {
+            TVPickParam pickerData = pickerViewList.getPickerData();
             if (null != pickerData) tvPickParamList.add(pickerData);
         }
-
+        LogUtil.e(tvPickParamList.toString());
         new Thread(new Runnable() {
             @SneakyThrows
             @Override

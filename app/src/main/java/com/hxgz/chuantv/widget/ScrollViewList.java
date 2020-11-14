@@ -72,6 +72,7 @@ public class ScrollViewList extends LinearLayout {
     public void setTitle(String title) {
         if (!TextUtils.isEmpty(title)) {
             mHeader.setText(title);
+            mHeader.setVisibility(VISIBLE);
         }
     }
 
