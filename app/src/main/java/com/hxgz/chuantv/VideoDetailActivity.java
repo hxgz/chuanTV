@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoDetailActivity extends Activity {
+public class VideoDetailActivity extends BackPressActivity {
     TVExtractor tvExtractor;
 
     VideoInfoDO videoInfoDO;
@@ -42,6 +42,14 @@ public class VideoDetailActivity extends Activity {
         setContentView(R.layout.activity_video_detail);
         videoView = (VideoView) findViewById(R.id.VideoPreview);
         btn = (Button) findViewById(R.id.btnfullScreen);
+        btn.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                v.animate().scaleX(1.2f).scaleY(1.2f).setDuration(300).start();
+            } else {
+                v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).start();
+            }
+        });
+        setBeforeCloseFocusView(btn);
         btn.requestFocus();
 
         DebugUtil.whichViewFocusing(this);

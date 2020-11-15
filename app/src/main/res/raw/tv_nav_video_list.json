@@ -1,26 +1,5 @@
 {
-  "navItemDOList": [
-    {
-      "navId": "R1",
-      "title": "推荐"
-    },
-    {
-      "navId": "film",
-      "title": "电影"
-    },
-    {
-      "navId": "tv",
-      "title": "电视剧"
-    },
-    {
-      "navId": "picture",
-      "title": "动漫"
-    },
-    {
-      "navId": "fa",
-      "title": "综艺"
-    }
-  ],
+  "navItemDOList": [],
   "sectionItemDOList": [
     {
       "videoInfoDOList": [

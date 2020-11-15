@@ -1,11 +1,13 @@
 package com.hxgz.chuantv;
 
 import android.app.Activity;
+import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.fastjson.JSON;
 import com.hxgz.chuantv.dataobject.NavItemDO;
@@ -36,7 +38,7 @@ import java.util.stream.Collectors;
  * @date 2020/10/18
  * @description：
  */
-public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListener {
+public class HomeActivity extends BackPressActivity implements RecyclerViewTV.OnItemListener {
     TVExtractor tvExtractor;
 
     TvTabLayout mTabLayout;
@@ -94,6 +96,7 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
 
     public void initTab() {
         mTabLayout = findViewById(R.id.navTab);
+        setBeforeCloseFocusView(mTabLayout);
 
         navItemDOList = tvExtractor.defaultNav();
         drawTabs(0);
@@ -261,6 +264,17 @@ public class HomeActivity extends Activity implements RecyclerViewTV.OnItemListe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        final View currentFocus = getCurrentFocus();
+        if (currentFocus instanceof TvTabLayout
+                && ((TvTabLayout) currentFocus).getSelectedTabPosition() != 0) {
+            ((TvTabLayout) currentFocus).selectTab(0);
+            return;
+        }
+
+        super.onBackPressed();
+    }
 }
 
     

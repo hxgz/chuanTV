@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true" android:drawable="@color/blue">
+    <item android:state_focused="true">
         <shape>
-            <stroke android:width="1dp"/>
+            <gradient android:startColor="@color/blue" android:endColor="@color/blue" android:type="radial"
+                      android:gradientRadius="1020.0"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
-    <item android:drawable="@color/white_20">
+    <item>
         <shape>
-            <stroke android:width="1dp" android:color="@color/white_20"/>
-            <padding android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp"/>
+            <gradient android:startColor="@color/white_20" android:endColor="@color/white_20" android:type="radial"
+                      android:gradientRadius="1020.0"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>

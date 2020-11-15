@@ -1,17 +1,11 @@
 package com.hxgz.chuantv;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hxgz.chuantv.dataobject.*;
@@ -22,22 +16,19 @@ import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
-import com.open.androidtvwidget.leanback.mode.*;
 import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.view.MainUpView;
-import com.owen.tab.TvTabLayout;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author zhoujianwu
  * @description：
  */
-public class SearchActivity extends Activity implements RecyclerViewTV.OnItemListener {
+public class SearchActivity extends BackPressActivity implements RecyclerViewTV.OnItemListener {
     TVExtractor tvExtractor;
 
     String searchText;
@@ -58,6 +49,14 @@ public class SearchActivity extends Activity implements RecyclerViewTV.OnItemLis
         tvExtractor = App.getTVForSearch();
         searchView = findViewById(R.id.tvSearchText);
         searchView.onActionViewExpanded();
+        setBeforeCloseFocusView(searchView);
+
+        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                searchView.setIconified(false);
+                searchView.requestFocusFromTouch();
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -68,7 +67,6 @@ public class SearchActivity extends Activity implements RecyclerViewTV.OnItemLis
                 searchText = query;
                 noMore = false;
                 search(query);
-                //点击搜索
                 return false;
             }
 
@@ -171,6 +169,16 @@ public class SearchActivity extends Activity implements RecyclerViewTV.OnItemLis
     @Override
     public void onReviseFocusFollow(RecyclerViewTV parent, View itemView, int position) {
         mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+    }
+
+    @Override
+    public void onBackPressed() {
+        final View currentFocus = getCurrentFocus();
+        if (currentFocus instanceof AutoCompleteTextView) {
+            setBeforeCloseFocusView(currentFocus);
+        }
+
+        super.onBackPressed();
     }
 
 }

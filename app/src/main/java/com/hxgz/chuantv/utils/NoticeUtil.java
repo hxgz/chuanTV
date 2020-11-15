@@ -11,9 +11,11 @@ import android.widget.Toast;
  */
 public class NoticeUtil {
     public static void show(Context context, String msg) {
-        Looper.prepare();
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-        Looper.loop();
+        if (Looper.myLooper() == null) Looper.prepare();
+
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+
+        if (Looper.myLooper() == null) Looper.loop();
     }
 }
 
