@@ -76,6 +76,7 @@ public class VideoDetailActivity extends BackPressActivity {
             for (int j = 0; j < scrollViewList.getAllItems().size(); j++) {
                 if (scrollViewList.getAllItems().get(j).isSelected()) {
                     fullScreen(i, j, false);
+                    return;
                 }
             }
         }

@@ -1,15 +1,11 @@
 package com.hxgz.chuantv;
 
-import android.app.Activity;
-import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.alibaba.fastjson.JSON;
 import com.hxgz.chuantv.dataobject.NavItemDO;
 import com.hxgz.chuantv.dataobject.SectionItemDO;
 import com.hxgz.chuantv.dataobject.VideoInfoDO;
@@ -27,10 +23,11 @@ import com.open.androidtvwidget.view.MainUpView;
 import com.owen.tab.TvTabLayout;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +37,9 @@ import java.util.stream.Collectors;
  */
 public class HomeActivity extends BackPressActivity implements RecyclerViewTV.OnItemListener {
     TVExtractor tvExtractor;
+
+    GifImageView splashView;
+    View bodyView;
 
     TvTabLayout mTabLayout;
 
@@ -60,6 +60,12 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bodyView = findViewById(R.id.body);
+        splashView = (GifImageView) findViewById(R.id.spash);
+        bodyView.setVisibility(View.GONE);
+
+        splash();
+
         tvExtractor = App.getTVForSearch();
 
         View searchAction = findViewById(R.id.searchAction);
@@ -78,6 +84,45 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
         if (CollectionUtils.isEmpty(navItemDOList)) {
             loadData(null);
         }
+    }
+
+    public void splash() {
+        GifDrawable gifDrawable = (GifDrawable) splashView.getDrawable();
+        gifDrawable.start();
+        gifDrawable.setLoopCount(1);
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                splashClose();
+            }
+        }, gifDrawable.getDuration());
+    }
+
+    public void splashClose() {
+        if (splashView.getVisibility() == View.GONE) {
+            return;
+        }
+
+        int shortAnimationDuration = 800;
+
+//        splashView.animate()
+//                .alpha(0f)
+//                .setDuration(shortAnimationDuration)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        splashView.setVisibility(View.GONE);
+//                    }
+//                });
+        splashView.setVisibility(View.GONE);
+        bodyView.setAlpha(0f);
+        bodyView.setVisibility(View.VISIBLE);
+        bodyView.animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration)
+                .setListener(null);
     }
 
     public float getDimension(int id) {
@@ -205,7 +250,8 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
                                 public void onItemClick(RecyclerViewTV parent, View itemView, int position) {
                                     GeneralAdapter adapter = (GeneralAdapter) parent.getAdapter();
                                     VideoInfoDO videoInfoDO = (VideoInfoDO) ((DefualtListPresenter) adapter.getPresenter()).getItem(position);
-                                    Intent detailIntent = new Intent(HomeActivity.this, VideoDetailActivity.class);
+                                    //Intent detailIntent = new Intent(HomeActivity.this, VideoDetailActivity.class);
+                                    Intent detailIntent = new Intent(HomeActivity.this, PlaybackActivity.class);
                                     IntentUtil.putData(detailIntent, "videoInfoDO", videoInfoDO);
                                     startActivity(detailIntent);
                                 }
@@ -266,6 +312,11 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
 
     @Override
     public void onBackPressed() {
+        if (splashView.getVisibility() == View.VISIBLE) {
+            splashClose();
+            return;
+        }
+
         final View currentFocus = getCurrentFocus();
         if (currentFocus instanceof TvTabLayout
                 && ((TvTabLayout) currentFocus).getSelectedTabPosition() != 0) {

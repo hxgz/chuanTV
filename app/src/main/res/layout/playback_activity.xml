@@ -3,19 +3,26 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@color/black"
-             android:gravity="center"
->
+             android:gravity="center">
 
-    <VideoView
-            android:id="@+id/VideoViewfull"
+    <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/VideoViewfull2"
+            android:background="@color/white"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center">
+    </com.google.android.exoplayer2.ui.PlayerView>
+
+    <com.hxgz.chuantv.widget.PlayerControlView
+            android:id="@+id/pb_playerControlView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
-    </VideoView>
+            android:visibility="gone"
+            android:elevation="500dp"/>
 
     <com.github.ybq.android.spinkit.SpinKitView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/spin_kit"
+            android:id="@+id/loading_progress"
             style="@style/SpinKitView.Large.Wave"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -23,5 +30,4 @@
             android:layout_centerInParent="true"
             android:visibility="gone"
             app:SpinKit_Color="@color/colorAccent"/>
-
 </FrameLayout>

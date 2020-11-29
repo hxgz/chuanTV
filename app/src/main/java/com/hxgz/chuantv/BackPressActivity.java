@@ -24,14 +24,14 @@ public class BackPressActivity extends Activity {
     @Override
     public void onBackPressed() {
         final View currentFocus = getCurrentFocus();
-        if (beforeCloseFocusView != currentFocus) {
+        if (beforeCloseFocusView != null && beforeCloseFocusView != currentFocus) {
             beforeCloseFocusView.requestFocus();
             return;
         }
 
         if (mBackPressed + TIME_INTERVAL <= System.currentTimeMillis()) {
             mBackPressed = System.currentTimeMillis();
-            NoticeUtil.show(getBaseContext(), "按[返回键]退出");
+            NoticeUtil.show(getBaseContext(), "按【返回键】退出");
             return;
         }
 

@@ -45,6 +45,14 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.4'
     implementation 'org.apache.commons:commons-collections4:4.4'
 
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
     implementation 'com.owen:tv-tablayout:2.0.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    // UUU
+    implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
+    // UUU ENND
+
     implementation project(path: ':androidtvwidget')
 }

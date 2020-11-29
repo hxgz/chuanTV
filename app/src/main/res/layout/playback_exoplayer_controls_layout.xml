@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/controls_vignette"
+                android:layoutDirection="ltr"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:descendantFocusability="afterDescendants"
+                android:orientation="vertical">
+
+    <!-- top bar -->
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+        <!-- stream title -->
+        <TextView
+                android:id="@+id/pb_streamTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="title"
+                android:textAllCaps="false"
+                android:textColor="@color/app_text_light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
+    </RelativeLayout>
+
+    <!-- play/pause button -->
+    <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="45dp"
+            android:focusable="false"
+            android:descendantFocusability="blocksDescendants"
+            android:clipChildren="false">
+
+        <ImageButton
+                android:id="@id/exo_play"
+                style="@style/PlayerControlButton"
+                android:src="@drawable/ic_play_arrow_black_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <!--        <ImageButton-->
+        <!--                android:id="@id/exo_pause"-->
+        <!--                style="@style/PlayerControlButton"-->
+        <!--                android:src="@drawable/ic_pause_black_24dp"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="@string/exo_controls_pause_description"-->
+        <!--                android:visibility="invisible"/>-->
+    </FrameLayout>
+
+    <!-- bottom controls -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <!-- playback position -->
+        <TextView
+                android:id="@id/exo_position"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/app_text_light"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+        <!-- (placeholder) progress seek bar -->
+        <View
+                android:id="@id/exo_progress_placeholder"
+                android:layout_width="0dp"
+                android:layout_height="26dp"
+                android:layout_weight="1"/>
+
+        <!-- video duration -->
+        <TextView
+                android:id="@id/exo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/app_text_light"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+    </LinearLayout>
+</RelativeLayout>

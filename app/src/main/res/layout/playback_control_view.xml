@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/ctl_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/app_dark_curtain_4"
+            android:clickable="false"
+            android:focusable="false"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="@color/app_text_light"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            tools:ignore="HardcodedText"/>
+
+    <!-- actual controls -->
+    <com.hxgz.chuantv.widget.PlayerControlBar
+            android:id="@+id/ctl_playercontrols"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:controller_layout_id="@layout/playback_exoplayer_controls_layout"
+            app:use_artwork="true"/>
+</RelativeLayout>

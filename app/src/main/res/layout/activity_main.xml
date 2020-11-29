@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -9,65 +9,78 @@
         android:background="@drawable/background_gradient"
         tools:context=".HomeActivity">
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-        <TextView
-                android:id="@+id/searchAction"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:text="搜索"
-                android:textSize="15sp"
-                android:padding="5dp"
-                android:gravity="center"
-                android:focusable="true"
-                android:background="@drawable/search_border_select"/>
-    </RelativeLayout>
-    <com.owen.tab.TvTabLayout
-            android:id="@+id/navTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-
-            app:tabIndicatorHeight="0dp"
-            app:tabIndicatorBackgroundHeight="0dp"
-            app:tabScrollMode="scrollable"
-            app:tabGravity="center"
-            app:tabPadding="2dp"
-            app:tabMinWidth="80dp"
-            app:tabTextSelectedCentered="false"
-            app:tabTextSelectedScale="1.0"
-            app:tabTexSize="18sp"
-            app:tabTextColor="@color/selector_tab_font_color"
-            app:tabBackground="@drawable/tab_action_select">
-
-    </com.owen.tab.TvTabLayout>
-
-
-    <LinearLayout
-            android:id="@+id/ListSectionView"
+    <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/spash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal">
-        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
-                android:id="@+id/recyclerView"
+            android:src="@drawable/splash"
+            android:background="@color/white"/>
+
+    <LinearLayout
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+            <TextView
+                    android:id="@+id/searchAction"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
+                    android:text="搜索"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:focusable="true"
+                    android:background="@drawable/search_border_select"/>
+        </RelativeLayout>
+        <com.owen.tab.TvTabLayout
+                android:id="@+id/navTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorBackgroundHeight="0dp"
+                app:tabScrollMode="scrollable"
+                app:tabGravity="center"
+                app:tabPadding="2dp"
+                app:tabMinWidth="80dp"
+                app:tabTextSelectedCentered="false"
+                app:tabTextSelectedScale="1.0"
+                app:tabTexSize="18sp"
+                app:tabTextColor="@color/selector_tab_font_color"
+                app:tabBackground="@drawable/tab_action_select">
+
+        </com.owen.tab.TvTabLayout>
+
+
+        <LinearLayout
+                android:id="@+id/ListSectionView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:focusable="false"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal">
+            <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:focusable="false"
+                    android:padding="10dp"
+                    android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+        <!-- 最顶层边框 -->
+
+        <com.open.androidtvwidget.view.MainUpView
+                android:id="@+id/mainUpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
     </LinearLayout>
-    <!-- 最顶层边框 -->
-
-    <com.open.androidtvwidget.view.MainUpView
-            android:id="@+id/mainUpView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-</LinearLayout>
+</FrameLayout>

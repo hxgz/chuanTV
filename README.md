@@ -28,6 +28,8 @@ android TV 的demo版
 https://www.jianshu.com/p/705a6cb6bfee
 https://www.jianshu.com/p/1fac598febc1
 https://www.jianshu.com/p/a48960270849
+https://blog.csdn.net/qq_38436214/article/details/104689266
+
 ## 效果展现
 
 ![首页，tab](images/home.png)
