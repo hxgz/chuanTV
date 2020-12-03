@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -14,7 +13,6 @@ import com.hxgz.chuantv.dataobject.VideoDetailDO;
 import com.hxgz.chuantv.dataobject.VideoPlayRuntimeDO;
 import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.utils.IntentUtil;
-import com.hxgz.chuantv.utils.LogUtil;
 
 //https://cloud.tencent.com/developer/article/1384945
 public class VideoPlayActivity extends BackPressActivity {
@@ -33,7 +31,7 @@ public class VideoPlayActivity extends BackPressActivity {
 
         videoPlayRuntimeDO = new VideoPlayRuntimeDO();
         videoPlayRuntimeDO.setUrl("https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8");
-        videoPlayRuntimeDO.setStartTime(0);
+        videoPlayRuntimeDO.setStartTime(0L);
         videoDetailDO = (VideoDetailDO) IntentUtil.getData(getIntent(), "videoDetailDO");
 
         setContentView(R.layout.activity_video_play);
@@ -59,7 +57,7 @@ public class VideoPlayActivity extends BackPressActivity {
             public void onPrepared(MediaPlayer mp) {
                 loadingProcess.setVisibility(View.GONE);
                 videoView.start();
-                videoView.seekTo(videoPlayRuntimeDO.getStartTime());
+                videoView.seekTo(videoPlayRuntimeDO.getStartTime().intValue());
 
                 mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
                     @Override
@@ -85,7 +83,7 @@ public class VideoPlayActivity extends BackPressActivity {
 
     @Override
     public void finish() {
-        videoPlayRuntimeDO.setStartTime(videoView.getCurrentPosition());
+        videoPlayRuntimeDO.setStartTime(Long.valueOf(videoView.getCurrentPosition()));
 
         Intent data = new Intent();
         IntentUtil.putData(data, "response", videoPlayRuntimeDO);

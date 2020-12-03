@@ -2,8 +2,7 @@ package com.hxgz.chuantv;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.Toast;
-import com.hxgz.chuantv.utils.LogUtil;
+import com.hxgz.chuantv.consts.TvConst;
 import com.hxgz.chuantv.utils.NoticeUtil;
 
 /**
@@ -12,7 +11,6 @@ import com.hxgz.chuantv.utils.NoticeUtil;
  * @description：
  */
 public class BackPressActivity extends Activity {
-    private static final int TIME_INTERVAL = 2000;
     private long mBackPressed;
 
     View beforeCloseFocusView;
@@ -29,8 +27,8 @@ public class BackPressActivity extends Activity {
             return;
         }
 
-        if (mBackPressed + TIME_INTERVAL <= System.currentTimeMillis()) {
-            mBackPressed = System.currentTimeMillis();
+        if (mBackPressed <= System.currentTimeMillis()) {
+            mBackPressed = TvConst.TIME_INTERVAL + System.currentTimeMillis();
             NoticeUtil.show(getBaseContext(), "按【返回键】退出");
             return;
         }

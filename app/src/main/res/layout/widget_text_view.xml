@@ -2,14 +2,14 @@
 <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:width="@dimen/h_160"
-        android:height="@dimen/h_80"
+        android:layout_width="@dimen/h_160"
+        android:layout_height="@dimen/h_80"
         android:textColor="@color/selector_textview_font_color"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         android:focusable="true"
         android:clickable="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:background="@drawable/textview_action_select"
         android:gravity="center"/>
 

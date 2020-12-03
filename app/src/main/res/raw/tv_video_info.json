@@ -22,12 +22,12 @@
       "show": "线路一",
       "videoFileDOList": [
         {
-          "title": "1",
-          "url": "https://mingxing.xianyongjiu.com/20201025/15243_65afbc59/index.m3u8"
+          "title": "mpd",
+          "url": "https://dash.akamaized.net/dash264/TestCases/1a/netflix/exMPD_BIP_TC1.mpd"
         },
         {
           "title": "2",
-          "url": "https://mingxing.xianyongjiu.com/20201025/15244_fdc63bb5/index.m3u8"
+          "url": "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         }
       ]
     },
@@ -35,16 +35,16 @@
       "show": "线路二",
       "videoFileDOList": [
         {
-          "title": "1",
-          "url": "https://mingxing.xianyongjiu.com/20201025/15243_65afbc59/index.m3u8"
+          "title": "mp4",
+          "url": "http://techslides.com/demos/sample-videos/small.mp4"
         },
         {
-          "title": "2",
-          "url": "https://mingxing.xianyongjiu.com/20201025/15244_fdc63bb5/index.m3u8"
+          "title": "webm",
+          "url": "http://techslides.com/demos/sample-videos/small.webm"
         },
         {
-          "title": "3",
-          "url": "https://mingxing.xianyongjiu.com/20201025/15245_c60a8020/index.m3u8"
+          "title": "BigBuckBunny",
+          "url": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
         }
       ]
     }

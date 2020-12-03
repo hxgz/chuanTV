@@ -32,7 +32,7 @@ public class VideoPlayRuntimeDO implements Serializable {
     /**
      * 播放起始点
      */
-    private Integer startTime = 0;
+    private Long startTime = 0L;
 }
 
     

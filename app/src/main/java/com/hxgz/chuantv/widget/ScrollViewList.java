@@ -81,15 +81,16 @@ public class ScrollViewList extends LinearLayout {
     }
 
     public void addItem(View view, Object o) {
-        if (showItemNum > 0) {
-            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) this.getLayoutParams();
-            int itemWidth = this.getWidth() - lp.leftMargin - lp.rightMargin;
-
-            ViewGroup.MarginLayoutParams vlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-
-            int width = itemWidth / showItemNum - vlp.leftMargin - vlp.rightMargin;
-            view.getLayoutParams().width = width;
-        }
+//        if (showItemNum > 0) {
+//            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) this.getLayoutParams();
+//            int itemWidth = this.getWidth() - lp.leftMargin - lp.rightMargin;
+//
+//            ViewGroup.MarginLayoutParams vlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+//
+//            int width = itemWidth / showItemNum - vlp.leftMargin - vlp.rightMargin;
+//            LogUtil.e(itemWidth + " " + width + " " + view.getWidth() + " " + view.getMeasuredWidth() + " " + this.getMeasuredWidth());
+//            //view.getLayoutParams().width = width;
+//        }
 
         view.setTag(this);
         view.setOnFocusChangeListener((v, hasFocus) -> {
@@ -101,14 +102,13 @@ public class ScrollViewList extends LinearLayout {
         });
 
         view.setOnClickListener(v -> {
-            ScrollViewList.this.clearItemSelected();
-
             if (null != mOnClickListen) {
                 int itemIndex = ScrollViewList.this.getItemIndex(v);
                 Object data = ScrollViewList.this.getItemData(itemIndex);
                 mOnClickListen.onClick(v, data);
             }
 
+            ScrollViewList.this.clearItemSelected();
             v.setSelected(true);
         });
 

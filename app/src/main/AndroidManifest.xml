@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.hxgz.chuantv">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -16,14 +15,14 @@
             android:networkSecurityConfig="@xml/network_security_config"
             android:theme="@style/AppTheme">
 
-        <activity android:name="com.hxgz.chuantv.HomeActivity">
+        <activity android:name="com.hxgz.chuantv.VideoDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.hxgz.chuantv.VideoDetailActivity"/>
-        <!--        <activity android:name="com.hxgz.chuantv.VideoPlayActivity"/>-->
+        <!--        <activity android:name="com.hxgz.chuantv.VideoDetailActivity"/>-->
+        <activity android:name="com.hxgz.chuantv.VideoPlayActivity"/>
         <activity android:name="com.hxgz.chuantv.PickerActivity"/>
         <activity android:name="com.hxgz.chuantv.SearchActivity"/>
         <activity android:name="com.hxgz.chuantv.PlaybackActivity"/>

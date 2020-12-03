@@ -96,4 +96,8 @@ public class PlayerControlView extends FrameLayout {
         infoTextView.setAnimation(null);
         infoTextView.setAlpha(1f);
     }
+
+    public void setTitle(String text) {
+        playerControls.setTitle(text);
+    }
 }

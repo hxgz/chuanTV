@@ -12,29 +12,52 @@
               android:orientation="vertical">
 
     <LinearLayout
+            android:id="@+id/PlayerContainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <LinearLayout
+        <FrameLayout
+                android:id="@+id/PlayerViewLayout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_height="300dp"
+                android:addStatesFromChildren="true"
                 android:gravity="center">
-            <VideoView
-                    android:id="@+id/VideoPreview"
-                    android:layout_width="match_parent"
-                    android:focusable="true"
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/VideoViewfull3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/selector_border"
-                    android:layout_height="300dp">
-            </VideoView>
-        </LinearLayout>
+                    android:padding="@dimen/border_small"
+                    android:focusable="true"
+                    android:layout_gravity="center">
+            </com.google.android.exoplayer2.ui.PlayerView>
+
+            <com.hxgz.chuantv.widget.PlayerControlView
+                    android:id="@+id/pb_playerControlView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:elevation="500dp"/>
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/loading_progress"
+                    style="@style/SpinKitView.Large.Wave"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorAccent"/>
+        </FrameLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
             <TextView

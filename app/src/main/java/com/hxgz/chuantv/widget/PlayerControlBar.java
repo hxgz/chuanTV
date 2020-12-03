@@ -3,6 +3,7 @@ package com.hxgz.chuantv.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.widget.TextView;
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -14,6 +15,8 @@ import com.hxgz.chuantv.R;
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerControlBar extends PlayerControlView implements Player.EventListener {
+    TextView titleTextView;
+
     public PlayerControlBar(Context context) {
         this(context, null);
     }
@@ -33,6 +36,7 @@ public class PlayerControlBar extends PlayerControlView implements Player.EventL
         // 进度条每次快进，后退时间
         TimeBar timeBar = findViewById(R.id.exo_progress);
         timeBar.setKeyTimeIncrement(10000);
+        titleTextView = findViewById(R.id.pb_streamTitle);
     }
 
     @Override
@@ -50,6 +54,9 @@ public class PlayerControlBar extends PlayerControlView implements Player.EventL
                         return true;
                     case KeyEvent.KEYCODE_DPAD_CENTER:
                         playOrPause();
+                        return true;
+                    case KeyEvent.KEYCODE_BACK:
+                        hide();
                         return true;
                 }
             }
@@ -90,5 +97,9 @@ public class PlayerControlBar extends PlayerControlView implements Player.EventL
     public void show(boolean autoHide) {
         setShowTimeoutMs(autoHide ? 5000 : 0);
         super.show();
+    }
+
+    public void setTitle(String text) {
+        titleTextView.setText(text);
     }
 }
