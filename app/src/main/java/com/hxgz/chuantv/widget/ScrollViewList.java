@@ -95,7 +95,7 @@ public class ScrollViewList extends LinearLayout {
         view.setTag(this);
         view.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                v.animate().scaleX(1.2f).scaleY(1.2f).setDuration(300).start();
+                v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).start();
             } else {
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).start();
             }

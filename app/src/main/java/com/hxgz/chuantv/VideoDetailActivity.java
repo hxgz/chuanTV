@@ -25,6 +25,7 @@ import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.playback.PlaybackService;
 import com.hxgz.chuantv.playback.PlaybackServiceListener;
 import com.hxgz.chuantv.utils.DebugUtil;
+import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.PlayerControlView;
@@ -46,8 +47,6 @@ public class VideoDetailActivity extends BackPressActivity {
     VideoDetailDO videoDetailDO;
     List<ScrollViewList> fileViewLists = new ArrayList<>();
 
-    final int REQUEST_CODE = 5000;
-
     boolean hasPlay = false;
 
     PlayerView playerView;
@@ -66,11 +65,11 @@ public class VideoDetailActivity extends BackPressActivity {
         tvExtractor = App.getTVForSearch();
 
         // TODO: 待删除
-        //videoInfoDO = (VideoInfoDO) IntentUtil.getData(getIntent(), "videoInfoDO");
-        videoInfoDO = new VideoInfoDO();
-        videoInfoDO.setTitle("我哦哦");
-        videoInfoDO.setImgUrl("DDDD");
-        videoInfoDO.setVideoId("DD");
+        videoInfoDO = (VideoInfoDO) IntentUtil.getData(getIntent(), "videoInfoDO");
+//        videoInfoDO = new VideoInfoDO();
+//        videoInfoDO.setTitle("我哦哦");
+//        videoInfoDO.setImgUrl("DDDD");
+//        videoInfoDO.setVideoId("DD");
         // END
 
         setContentView(R.layout.activity_video_detail);
@@ -91,7 +90,6 @@ public class VideoDetailActivity extends BackPressActivity {
             }
         });
         setBeforeCloseFocusView(btn);
-        btn.requestFocus();
 
         DebugUtil.whichViewFocusing(this);
 
@@ -359,6 +357,11 @@ public class VideoDetailActivity extends BackPressActivity {
         unbindService(playbackServiceConnection);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        btn.requestFocus();
+    }
 
     @Override
     protected void onDestroy() {

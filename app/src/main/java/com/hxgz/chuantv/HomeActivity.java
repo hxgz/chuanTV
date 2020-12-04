@@ -250,8 +250,7 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
                                 public void onItemClick(RecyclerViewTV parent, View itemView, int position) {
                                     GeneralAdapter adapter = (GeneralAdapter) parent.getAdapter();
                                     VideoInfoDO videoInfoDO = (VideoInfoDO) ((DefualtListPresenter) adapter.getPresenter()).getItem(position);
-                                    //Intent detailIntent = new Intent(HomeActivity.this, VideoDetailActivity.class);
-                                    Intent detailIntent = new Intent(HomeActivity.this, PlaybackActivity.class);
+                                    Intent detailIntent = new Intent(HomeActivity.this, VideoDetailActivity.class);
                                     IntentUtil.putData(detailIntent, "videoInfoDO", videoInfoDO);
                                     startActivity(detailIntent);
                                 }

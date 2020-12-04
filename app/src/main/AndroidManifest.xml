@@ -15,17 +15,15 @@
             android:networkSecurityConfig="@xml/network_security_config"
             android:theme="@style/AppTheme">
 
-        <activity android:name="com.hxgz.chuantv.VideoDetailActivity">
+        <activity android:name="com.hxgz.chuantv.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--        <activity android:name="com.hxgz.chuantv.VideoDetailActivity"/>-->
-        <activity android:name="com.hxgz.chuantv.VideoPlayActivity"/>
+        <activity android:name="com.hxgz.chuantv.VideoDetailActivity"/>
         <activity android:name="com.hxgz.chuantv.PickerActivity"/>
         <activity android:name="com.hxgz.chuantv.SearchActivity"/>
-        <activity android:name="com.hxgz.chuantv.PlaybackActivity"/>
 
         <service android:name=".playback.PlaybackService"/>
 

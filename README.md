@@ -1,5 +1,5 @@
 ## 简介
-android TV 的demo版
+定制自家的android TV 
 
 主要实现了 影片首页, 搜索,全部剧集，剧集详情页，播放页
 
@@ -21,14 +21,6 @@ android TV 的demo版
     }
 
 ```
-## TODO
-* 自定义tab，图片，ListView，等相关widget。目前这块代码有点乱，很多样式写在java代码里了
-* 全屏播放弹出控制栏，支持切换集数，视频控制等
-
-https://www.jianshu.com/p/705a6cb6bfee
-https://www.jianshu.com/p/1fac598febc1
-https://www.jianshu.com/p/a48960270849
-https://blog.csdn.net/qq_38436214/article/details/104689266
 
 ## 效果展现
 
@@ -41,3 +33,9 @@ https://blog.csdn.net/qq_38436214/article/details/104689266
 ![筛选页](images/picktv.png)
 
 ![搜索](images/search.png)
+
+## 扩展阅读
+https://www.jianshu.com/p/705a6cb6bfee
+https://www.jianshu.com/p/1fac598febc1
+https://www.jianshu.com/p/a48960270849
+https://blog.csdn.net/qq_38436214/article/details/104689266
