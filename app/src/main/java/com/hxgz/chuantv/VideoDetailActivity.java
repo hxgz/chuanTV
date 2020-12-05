@@ -220,17 +220,19 @@ public class VideoDetailActivity extends BackPressActivity {
                             });
 
                             final int index = i;
-                            scrollViewList.setMOnClickListen((view, data) -> {
+                            scrollViewList.setMOnClickListen((view, data, repeatClick) -> {
                                 int position = scrollViewList.getItemIndex(view);
 
-                                if (!view.isSelected())
+                                if (!repeatClick)
                                     VideoDetailActivity.this.previewVideoPlay(index, position, 0);
 
                                 VideoDetailActivity.this.openFullscreenDialog();
 
-                                fileViewLists.forEach(scvl -> {
-                                    scvl.clearItemSelected();
-                                });
+                                for (int j = 0; j < fileViewLists.size(); j++) {
+                                    if (j != index) {
+                                        fileViewLists.get(j).clearItemSelected();
+                                    }
+                                }
                             });
                             showListView.addView(scrollViewList);
 

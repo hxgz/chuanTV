@@ -39,12 +39,13 @@ public class TextPickerViewList {
         scrollViewList = ScrollViewList.newInstance(parent.getContext());
         scrollViewList.setItemResId(R.layout.widget_text_picker_view);
 
-        scrollViewList.setMOnClickListen((view, data) -> {
+        scrollViewList.setMOnClickListen((view, data, repeatClick) -> {
             int position = scrollViewList.getItemIndex(view);
+            TextPickerViewList.this.setSelectedPosition(position);
+
             if (TextPickerViewList.this.mOnClickListen != null) {
                 TextPickerViewList.this.mOnClickListen.onclick(view, data);
             }
-            TextPickerViewList.this.setSelectedPosition(position);
         });
         parent.addView(scrollViewList, viewPosition);
     }

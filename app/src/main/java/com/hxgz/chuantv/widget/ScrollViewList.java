@@ -102,14 +102,16 @@ public class ScrollViewList extends LinearLayout {
         });
 
         view.setOnClickListener(v -> {
+            final boolean selected = v.isSelected();
+            ScrollViewList.this.clearItemSelected();
+            v.setSelected(true);
+
             if (null != mOnClickListen) {
                 int itemIndex = ScrollViewList.this.getItemIndex(v);
                 Object data = ScrollViewList.this.getItemData(itemIndex);
-                mOnClickListen.onClick(v, data);
+                mOnClickListen.onClick(v, data, selected);
             }
 
-            ScrollViewList.this.clearItemSelected();
-            v.setSelected(true);
         });
 
         mItems.addView(view);
@@ -166,6 +168,12 @@ public class ScrollViewList extends LinearLayout {
     }
 
     public interface onClickListen {
-        public void onClick(View view, Object data);
+
+        /**
+         * @param view        子view
+         * @param data
+         * @param repeatClick 是否重复点击
+         */
+        public void onClick(View view, Object data, boolean repeatClick);
     }
 }

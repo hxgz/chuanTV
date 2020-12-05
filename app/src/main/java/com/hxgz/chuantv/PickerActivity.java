@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.hxgz.chuantv.dataobject.*;
+import com.hxgz.chuantv.dataobject.TVPickParam;
+import com.hxgz.chuantv.dataobject.TVPickerDO;
+import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
@@ -68,7 +70,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
 
         initImageList(LinearLayoutManager.VERTICAL);
 
-        loadData();
+
     }
 
     public void initPicker() {
@@ -100,6 +102,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
 
                             pickerViewList.add(listView);
                         }
+                        loadData();
                     }
                 });
             }

@@ -1,6 +1,8 @@
 package com.hxgz.chuantv.widget;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.hxgz.chuantv.R;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerControlBar extends PlayerControlView implements Player.EventListener {
     TextView titleTextView;
+    TextView timeTextView;
 
     public PlayerControlBar(Context context) {
         this(context, null);
@@ -37,6 +40,7 @@ public class PlayerControlBar extends PlayerControlView implements Player.EventL
         TimeBar timeBar = findViewById(R.id.exo_progress);
         timeBar.setKeyTimeIncrement(10000);
         titleTextView = findViewById(R.id.pb_streamTitle);
+        timeTextView = findViewById(R.id.pb_streamTime);
     }
 
     @Override
@@ -95,6 +99,10 @@ public class PlayerControlBar extends PlayerControlView implements Player.EventL
     }
 
     public void show(boolean autoHide) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        String formattedDate = df.format(Calendar.getInstance().getTime());
+        timeTextView.setText(formattedDate);
+
         setShowTimeoutMs(autoHide ? 5000 : 0);
         super.show();
     }
