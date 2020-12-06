@@ -1,5 +1,7 @@
 package com.hxgz.chuantv.playback;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
+
 /**
  * @author zhoujianwu
  * @date 2020/11/18
@@ -32,6 +34,12 @@ public interface PlaybackServiceListener {
      * player load数据中
      */
     default void onPlayerBuffering() {
+    }
+
+    /**
+     * 异常
+     */
+    default void onPlayerError(ExoPlaybackException error) {
     }
 
 }

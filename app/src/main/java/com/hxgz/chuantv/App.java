@@ -23,6 +23,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.hxgz.chuantv.extractors.Demo;
 import com.hxgz.chuantv.extractors.TVExtractor;
+import com.hxgz.chuantv.utils.DebugUtil;
+import com.hxgz.chuantv.utils.LogUtil;
 
 public class App extends Application {
 
@@ -32,6 +34,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+
+        Thread.setDefaultUncaughtExceptionHandler((crashThread, ex) -> {
+            final String stackTrace = DebugUtil.getStackTrace(ex);
+            LogUtil.e("Catch unhandled Error: " + crashThread.getName() + " " + stackTrace);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(10);
+        });
     }
 
 

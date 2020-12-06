@@ -1,11 +1,12 @@
 package com.hxgz.chuantv.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author zhoujianwu
@@ -35,6 +36,14 @@ public class DebugUtil {
                 }
             }
         }).start();
+    }
+
+    public static String getStackTrace(Throwable ex) {
+        StringWriter strWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(strWriter);
+        ex.printStackTrace(writer);
+
+        return strWriter.toString();
     }
 }
 

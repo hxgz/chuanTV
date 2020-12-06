@@ -62,14 +62,12 @@ public class PlaybackService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         initializePlayer();
-
         return new PlaybackServiceBinder();
     }
 
     @Override
     public void onDestroy() {
         releasePlayerAndMedia();
-
         super.onDestroy();
     }
 
@@ -92,7 +90,6 @@ public class PlaybackService extends Service {
     }
 
     private void releasePlayerAndMedia() {
-        //release player
         if (player != null) {
             player.stop();
             player.release();
@@ -100,7 +97,7 @@ public class PlaybackService extends Service {
         }
     }
 
-    private boolean isPlayerValid() {
+    public boolean isPlayerValid() {
         return player != null;
     }
 
@@ -139,6 +136,11 @@ public class PlaybackService extends Service {
                 default:
                     break;
             }
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            eventListener.onPlayerError(error);
         }
     }
 }

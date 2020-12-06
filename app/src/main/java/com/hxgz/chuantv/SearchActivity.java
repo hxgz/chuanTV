@@ -3,15 +3,13 @@ package com.hxgz.chuantv;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.hxgz.chuantv.dataobject.*;
+import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
-import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
@@ -64,8 +62,12 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
                 if (query.equals(searchText)) {
                     return true;
                 }
+
                 searchText = query;
                 noMore = false;
+                pageSize = 1;
+                mRecyclerViewPresenter.clearData();
+
                 search(query);
                 return false;
             }

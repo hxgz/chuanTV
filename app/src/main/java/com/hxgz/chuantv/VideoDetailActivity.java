@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.hxgz.chuantv.consts.TvConst;
 import com.hxgz.chuantv.dataobject.PlatformVideoFileDO;
@@ -48,6 +49,7 @@ public class VideoDetailActivity extends BackPressActivity {
     List<ScrollViewList> fileViewLists = new ArrayList<>();
 
     boolean hasPlay = false;
+    long playbackStartTime = 0;
 
     PlayerView playerView;
     PlayerControlView playerControlView;
@@ -223,9 +225,10 @@ public class VideoDetailActivity extends BackPressActivity {
                             scrollViewList.setMOnClickListen((view, data, repeatClick) -> {
                                 int position = scrollViewList.getItemIndex(view);
 
-                                if (!repeatClick)
+                                if (!repeatClick) {
+                                    playbackStartTime = 0;
                                     VideoDetailActivity.this.previewVideoPlay(index, position, 0);
-
+                                }
                                 VideoDetailActivity.this.openFullscreenDialog();
 
                                 for (int j = 0; j < fileViewLists.size(); j++) {
@@ -259,7 +262,7 @@ public class VideoDetailActivity extends BackPressActivity {
     }
 
     private void previewVideoPlay() {
-        previewVideoPlay(0, 0, 0);
+        previewVideoPlay(0, 0, playbackStartTime);
     }
 
     private void previewVideoPlay(int platformPosition, int videoPosition, long startTime) {
@@ -282,6 +285,13 @@ public class VideoDetailActivity extends BackPressActivity {
         }
     }
 
+    private void savePlaybackPosition() {
+        if (playbackService == null || !playbackService.isPlayerValid()) {
+            return;
+        }
+
+        playbackStartTime = playbackService.getCurrentPosition();
+    }
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
@@ -342,6 +352,10 @@ public class VideoDetailActivity extends BackPressActivity {
 
         }
 
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            savePlaybackPosition();
+        }
     }
 
     @Override
@@ -356,6 +370,8 @@ public class VideoDetailActivity extends BackPressActivity {
     protected void onStop() {
         super.onStop();
 
+        hasPlay = false;
+        savePlaybackPosition();
         unbindService(playbackServiceConnection);
     }
 
