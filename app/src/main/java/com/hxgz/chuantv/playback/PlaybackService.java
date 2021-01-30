@@ -115,6 +115,7 @@ public class PlaybackService extends Service {
     private class PlayerEventListener implements Player.EventListener {
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            // TODO: 不同状态，不同的keepScreenOn
             switch (playbackState) {
                 case Player.STATE_ENDED:
                     if (isEventListenerValid())

@@ -1,8 +1,11 @@
 package com.hxgz.chuantv;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import com.hxgz.chuantv.consts.TvConst;
+import com.hxgz.chuantv.utils.DebugUtil;
+import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 
 /**
@@ -17,6 +20,23 @@ public class BackPressActivity extends Activity {
 
     public void setBeforeCloseFocusView(View view) {
         beforeCloseFocusView = view;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler((crashThread, ex) -> {
+            final String stackTrace = DebugUtil.getStackTrace(ex);
+
+            LogUtil.e("Catch Activity Error: " + stackTrace);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    NoticeUtil.showLong(getBaseContext(), ex.getMessage());
+                }
+            });
+        });
     }
 
     @Override

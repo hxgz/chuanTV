@@ -13,7 +13,6 @@ import com.hxgz.chuantv.dataobject.VideoSectionPageDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
-import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.TestMoviceListPresenter;
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
@@ -213,14 +212,10 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
             @Override
             public void run() {
                 final VideoSectionPageDO videoSectionPageDO;
-                try {
-                    LogUtil.d("request navId:" + navId);
-                    videoSectionPageDO = tvExtractor.previewNav(navId);
-                    sectionItemDOList = videoSectionPageDO.getSectionItemDOList();
-                } catch (Exception e) {
-                    NoticeUtil.show(HomeActivity.this, "发生异常,请重试");
-                    return;
-                }
+
+                LogUtil.d("request navId:" + navId);
+                videoSectionPageDO = tvExtractor.previewNav(navId);
+                sectionItemDOList = videoSectionPageDO.getSectionItemDOList();
 
                 runOnUiThread(new Runnable() {
                     @Override

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -49,6 +50,8 @@ public class VideoDetailActivity extends BackPressActivity {
     List<ScrollViewList> fileViewLists = new ArrayList<>();
 
     boolean hasPlay = false;
+    int platformPosition = 0;
+    int videoPosition = 0;
     long playbackStartTime = 0;
 
     PlayerView playerView;
@@ -133,6 +136,7 @@ public class VideoDetailActivity extends BackPressActivity {
                 super.onBackPressed();
             }
         };
+        mFullScreenDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private void openFullscreenDialog() {
@@ -227,7 +231,9 @@ public class VideoDetailActivity extends BackPressActivity {
 
                                 if (!repeatClick) {
                                     playbackStartTime = 0;
-                                    VideoDetailActivity.this.previewVideoPlay(index, position, 0);
+                                    platformPosition = index;
+                                    videoPosition = position;
+                                    VideoDetailActivity.this.previewVideoPlay();
                                 }
                                 VideoDetailActivity.this.openFullscreenDialog();
 
@@ -262,10 +268,10 @@ public class VideoDetailActivity extends BackPressActivity {
     }
 
     private void previewVideoPlay() {
-        previewVideoPlay(0, 0, playbackStartTime);
+        previewVideoPlay(playbackStartTime);
     }
 
-    private void previewVideoPlay(int platformPosition, int videoPosition, long startTime) {
+    private void previewVideoPlay(long startTime) {
         if (CollectionUtils.isEmpty(fileViewLists)) {
             return;
         }
