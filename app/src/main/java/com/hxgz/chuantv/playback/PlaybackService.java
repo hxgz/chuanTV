@@ -8,6 +8,8 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.*;
+import com.google.android.exoplayer2.source.BehindLiveWindowException;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultAllocator;
@@ -25,6 +27,7 @@ public class PlaybackService extends Service {
     private SimpleExoPlayer player;
 
     private PlaybackServiceListener eventListener;
+    private MediaSource mediaSource;
 
     public class PlaybackServiceBinder extends Binder {
         public PlaybackService getServiceInstance() {
@@ -33,15 +36,21 @@ public class PlaybackService extends Service {
     }
 
     public void loadMedia(@NonNull Uri mediaUri, boolean playWhenReady, long startPosition) {
+        mediaSource = mediaFactory.createMediaSource(mediaUri);
         if (!isPlayerValid()) return;
 
-        player.prepare(mediaFactory.createMediaSource(mediaUri), true, true);
+        player.prepare(mediaSource, true, true);
 
         seekTo(startPosition);
 
         player.setPlayWhenReady(playWhenReady);
         if (isEventListenerValid())
             eventListener.onPlayerInitialized();
+    }
+
+    public void playMedia() {
+        player.prepare(mediaSource, true, true);
+        player.setPlayWhenReady(true);
     }
 
     public void seekTo(long pos) {
@@ -141,6 +150,11 @@ public class PlaybackService extends Service {
 
         @Override
         public void onPlayerError(ExoPlaybackException error) {
+            //HttpDataSource$InvalidResponseCodeException Response code: 404
+            if (error instanceof ExoPlaybackException
+                    && error.getCause() instanceof BehindLiveWindowException) {
+                playMedia();
+            }
             eventListener.onPlayerError(error);
         }
     }

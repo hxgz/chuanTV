@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/textview"
+        android:layout_width="@dimen/h_400"
+        android:layout_height="@dimen/h_100"
+        android:focusable="true"
+        android:clickable="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:textColor="@color/selector_textview_font_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/playback_item_select"
+        android:paddingLeft="@dimen/h_50"
+        android:gravity="center_vertical"/>
+

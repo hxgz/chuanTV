@@ -4,19 +4,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.hxgz.chuantv.dataobject.LiveTvDO;
+import com.hxgz.chuantv.extractors.LiveTV;
 import com.hxgz.chuantv.playback.PlaybackService;
 import com.hxgz.chuantv.playback.PlaybackServiceListener;
 import com.hxgz.chuantv.utils.DebugUtil;
-import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.widget.PlayerControlView;
+
+import java.util.List;
 
 public class PlaybackActivity extends BackPressActivity {
     PlayerView playerView;
@@ -26,14 +26,14 @@ public class PlaybackActivity extends BackPressActivity {
     private PlaybackService playbackService;
     private PlaybackServiceConnection playbackServiceConnection;
 
-    private Uri videoUri;
+    List<LiveTvDO> channelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playback_activity);
 
-        playerView = findViewById(R.id.VideoViewfull2);
+        playerView = findViewById(R.id.liveVideoView);
         playerView.setUseController(false);
 
         DebugUtil.whichViewFocusing(this);
@@ -41,20 +41,8 @@ public class PlaybackActivity extends BackPressActivity {
         playerControlView = findViewById(R.id.pb_playerControlView);
         loadingProcess = findViewById(R.id.loading_progress);
 
-        videoUri = Uri.parse("http://ftp.itec.aau.at/datasets/DASHDataset2014/BigBuckBunny/15sec/BigBuckBunny_15s_onDemand_2014_05_09.mpd");
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        LogUtil.e("" + keyCode + " " + event.toString());
-        fullScreen();
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void fullScreen() {
-        ViewGroup.LayoutParams lp = playerView.getLayoutParams();
-        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        channelList = LiveTV.getChannelList();
+        playerControlView.setTvList(channelList);
     }
 
     private class PlaybackServiceConnection implements ServiceConnection {
@@ -67,11 +55,12 @@ public class PlaybackActivity extends BackPressActivity {
 
                 PlaybackService.PlaybackServiceBinder serviceBinder = (PlaybackService.PlaybackServiceBinder) binder;
                 playbackService = serviceBinder.getServiceInstance();
+                playerControlView.setPlaybackService(playbackService);
 
                 playbackService.setListener(new PlaybackCallbackListener());
 
                 //load the media
-                playbackService.loadMedia(videoUri, true, 0);
+                playerControlView.playTv(0);
             }
         }
 

@@ -24,6 +24,7 @@
         <activity android:name="com.hxgz.chuantv.VideoDetailActivity"/>
         <activity android:name="com.hxgz.chuantv.PickerActivity"/>
         <activity android:name="com.hxgz.chuantv.SearchActivity"/>
+        <activity android:name="com.hxgz.chuantv.PlaybackActivity"/>
 
         <service android:name=".playback.PlaybackService"/>
 

@@ -2,6 +2,7 @@
 定制自家的android TV 
 
 主要实现了 影片首页, 搜索,全部剧集，剧集详情页，播放页
+以及电视直播功能
 
 ## 实现说明
 本期为了实现快速，直接采用的开源的widget实现 
@@ -33,6 +34,8 @@
 ![筛选页](images/picktv.png)
 
 ![搜索](images/search.png)
+
+![电视台](images/tv.png)
 
 ## 扩展阅读
 https://www.jianshu.com/p/705a6cb6bfee

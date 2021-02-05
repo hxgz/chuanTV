@@ -6,11 +6,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -73,7 +71,6 @@ public class RecyclerViewTV extends RecyclerView implements PrvInterface {
              */
             @Override
             public void onClick(View itemView) {
-                System.out.println("DCCD" + mOnItemClickListener);
                 if (null != mOnItemClickListener) {
                     mOnItemClickListener.onItemClick(RecyclerViewTV.this, itemView, getChildLayoutPosition(itemView));
                 }

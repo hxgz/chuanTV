@@ -11,6 +11,7 @@ import com.hxgz.chuantv.dataobject.SectionItemDO;
 import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.dataobject.VideoSectionPageDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
+import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.utils.IntentUtil;
 import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.widget.ImageCardView.TestMoviceListPresenter;
@@ -58,7 +59,7 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        DebugUtil.whichViewFocusing(this);
         bodyView = findViewById(R.id.body);
         splashView = (GifImageView) findViewById(R.id.spash);
         bodyView.setVisibility(View.GONE);
@@ -66,6 +67,15 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
         splash();
 
         tvExtractor = App.getTVForSearch();
+
+        // 直播
+        findViewById(R.id.liveTvAction).setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                findViewById(R.id.searchAction).requestFocus();
+                Intent detailIntent = new Intent(HomeActivity.this, PlaybackActivity.class);
+                startActivity(detailIntent);
+            }
+        });
 
         View searchAction = findViewById(R.id.searchAction);
         searchAction.setOnClickListener(new View.OnClickListener() {

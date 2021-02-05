@@ -8,12 +8,14 @@
     <color name="colorTextSelected">@color/yellow_90</color>
     <color name="colorBackgroundBox">@color/white_20</color>
     <color name="colorBackgroundFocused">@color/blue</color>
+    <color name="colorBackgroundSelected">@color/blue_60</color>
 
     <color name="white">#FFFFFF</color>
     <color name="lightskyblue">#87CEFA</color>
     <color name="greenyellow">#ADFF2F</color>
     <color name="green">#4A9B56</color>
     <color name="blue">#4998FA</color>
+    <color name="blue_60">#CC4998FA</color>
 
     <color name="black">#0C0C0C</color>
     <color name="white_20">#33FFFFFF</color>

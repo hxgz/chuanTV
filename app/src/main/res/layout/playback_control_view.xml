@@ -20,11 +20,30 @@
             android:visibility="invisible"
             tools:ignore="HardcodedText"/>
 
-    <!-- actual controls -->
+    <!-- 频道 -->
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/controls_vignette"
+            android:focusable="false"
+            android:visibility="invisible"
+            android:scrollbars="none"
+            android:fadingEdge="vertical">
+
+        <LinearLayout
+                android:isScrollContainer="true"
+                android:id="@+id/showTvList"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+    <!-- 控制条 -->
     <com.hxgz.chuantv.widget.PlayerControlBar
             android:id="@+id/ctl_playercontrols"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:controller_layout_id="@layout/playback_exoplayer_controls_layout"
+            app:controller_layout_id="@layout/playback_controls_bar"
             app:use_artwork="true"/>
 </RelativeLayout>
