@@ -9,14 +9,11 @@ import android.os.IBinder;
 import android.view.View;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.hxgz.chuantv.dataobject.LiveTvDO;
 import com.hxgz.chuantv.extractors.LiveTV;
 import com.hxgz.chuantv.playback.PlaybackService;
 import com.hxgz.chuantv.playback.PlaybackServiceListener;
 import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.widget.PlayerControlView;
-
-import java.util.List;
 
 public class PlaybackActivity extends BackPressActivity {
     PlayerView playerView;
@@ -25,8 +22,6 @@ public class PlaybackActivity extends BackPressActivity {
 
     private PlaybackService playbackService;
     private PlaybackServiceConnection playbackServiceConnection;
-
-    List<LiveTvDO> channelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +36,7 @@ public class PlaybackActivity extends BackPressActivity {
         playerControlView = findViewById(R.id.pb_playerControlView);
         loadingProcess = findViewById(R.id.loading_progress);
 
-        channelList = LiveTV.getChannelList();
-        playerControlView.setTvList(channelList);
+        playerControlView.setTvList(LiveTV.getChannelList());
     }
 
     private class PlaybackServiceConnection implements ServiceConnection {

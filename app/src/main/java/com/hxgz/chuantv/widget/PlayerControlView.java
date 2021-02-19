@@ -1,7 +1,6 @@
 package com.hxgz.chuantv.widget;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -9,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
@@ -18,13 +16,18 @@ import com.hxgz.chuantv.R;
 import com.hxgz.chuantv.dataobject.LiveTvDO;
 import com.hxgz.chuantv.playback.PlaybackService;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerControlView extends FrameLayout {
     LayoutInflater inflater;
 
     private TextView infoTextView;
+
+    private PlayerTvListView playerTvListView;
 
     private PlayerControlBar playerControls;
 
@@ -36,8 +39,8 @@ public class PlayerControlView extends FrameLayout {
             case KeyEvent.KEYCODE_DPAD_UP:
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_MENU:
-                if (isLiveMode()) {
-                    showTVList();
+                if (playerTvListView.isLiveMode()) {
+                    playerTvListView.showTVList();
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -47,7 +50,11 @@ public class PlayerControlView extends FrameLayout {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                playerControls.playOrPause();
+                if (playerTvListView.isLiveMode()) {
+                    playerTvListView.showTVList();
+                } else {
+                    playerControls.playOrPause();
+                }
                 return true;
             default:
                 break;
@@ -78,10 +85,7 @@ public class PlayerControlView extends FrameLayout {
 
         infoTextView = findViewById(R.id.ctl_info_text);
         playerControls = findViewById(R.id.ctl_playercontrols);
-        tvListLayout = findViewById(R.id.showTvList);
-        tvScrollView = (ScrollView) tvListLayout.getParent();
-        playingPosition = -1;
-        isLiveTv = false;
+        playerTvListView = findViewById(R.id.showTvListView);
     }
 
     public PlayerControlView setPlayer(Player player) {
@@ -124,89 +128,32 @@ public class PlayerControlView extends FrameLayout {
         playerControls.setTitle(text);
     }
 
-    // ======= 频道列表 ============
-
-    private ScrollView tvScrollView;
-    private LinearLayout tvListLayout;
-    private boolean isLiveTv;
-    private int playingPosition;
-
-    private Runnable hideTVList = new Runnable() {
-        @Override
-        public void run() {
-            tvScrollView.setVisibility(View.INVISIBLE);
-            removeCallbacks(hideTVList);
-        }
-    };
-
-    private boolean isLiveMode() {
-        return this.isLiveTv;
-    }
-
     public void setTvList(List<LiveTvDO> tvDOList) {
-        for (LiveTvDO liveTvDO : tvDOList) {
-            TextView view = (TextView) inflater.inflate(R.layout.widget_text_exoplayer_chanel, this, false);
-            view.setTag(liveTvDO);
-            view.setText(liveTvDO.getChannel());
-            view.setOnClickListener(v -> {
-                PlayerControlView.this.playTv(tvListLayout.indexOfChild(v));
-            });
-            view.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) {
-                    scrollToCenter(tvScrollView, v);
-                    hideTVListAfterTimeout();
-                }
-            });
-            view.setOnKeyListener((View v, int keyCode, KeyEvent event) -> {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (event.getRepeatCount() == 0 && keyCode == KeyEvent.KEYCODE_BACK) {
-                        hideTVList.run();
-                        return true;
-                    }
-                }
-                return false;
-            });
-            tvListLayout.addView(view);
-        }
-        isLiveTv = true;
-    }
-
-    public void showTVList() {
-        tvScrollView.setVisibility(View.VISIBLE);
-
-        View currentView = tvListLayout.getChildAt(playingPosition);
-        scrollToCenter(tvScrollView, currentView);
-        currentView.requestFocus();
-
-        hideTVListAfterTimeout();
-    }
-
-    public void hideTVListAfterTimeout() {
-        removeCallbacks(hideTVList);
-        postDelayed(hideTVList, 5000);
+        playerTvListView.setTvList(tvDOList);
     }
 
     public void playTv(int position) {
-        if (position < 0) {
-            return;
-        }
+        playerTvListView.playTv(position);
+    }
 
-        if (playingPosition >= 0) {
-            View oldView = tvListLayout.getChildAt(playingPosition);
-            oldView.setSelected(false);
-        }
+    private Map<String, Map<String, List<LiveTvDO>>> sorted(List<LiveTvDO> tvDOList) {
+        Map<String, Map<String, List<LiveTvDO>>> byCate = new LinkedHashMap<>();
+        tvDOList.forEach(tvDO -> {
+            Map<String, List<LiveTvDO>> byPlatform = byCate.getOrDefault(tvDO.getCategory(), new LinkedHashMap());
+            byCate.put(tvDO.getCategory(), byPlatform);
 
-        playingPosition = position;
-        View currentView = tvListLayout.getChildAt(playingPosition);
-        currentView.setSelected(true);
+            List<LiveTvDO> liveTvDOList = byPlatform.getOrDefault(tvDO.getChannel(), new ArrayList<>());
+            byPlatform.put(tvDO.getChannel(), liveTvDOList);
 
-        LiveTvDO liveTvDO = (LiveTvDO) currentView.getTag();
-        Uri videoUri = Uri.parse(liveTvDO.getAddress());
-        playbackService.loadMedia(videoUri, true, 0);
+            liveTvDOList.add(tvDO);
+        });
+
+        return byCate;
     }
     // ======= 频道列表 END ============
 
     public void setPlaybackService(PlaybackService playbackService) {
+        playerTvListView.setPlaybackService(playbackService);
         this.playbackService = playbackService;
     }
 

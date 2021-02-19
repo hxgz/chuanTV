@@ -2,7 +2,7 @@
 <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/textview"
-        android:layout_width="@dimen/h_400"
+        android:layout_width="@dimen/h_350"
         android:layout_height="@dimen/h_100"
         android:focusable="true"
         android:clickable="true"

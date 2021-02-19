@@ -15,8 +15,30 @@ import java.io.Serializable;
 public class LiveTvDO implements Serializable {
     private static final long serialVersionUID = 2436617018587319681L;
 
+    /**
+     * 分类
+     */
+    private String category;
+
+    /**
+     * 频道
+     */
     private String channel;
 
+    /**
+     * 平台
+     */
+    private String platform;
+
+    /**
+     * 画质
+     */
+    private String quality;
+
+
+    /**
+     * 地址
+     */
     private String address;
 }
 
