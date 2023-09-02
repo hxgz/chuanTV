@@ -10,12 +10,13 @@ public class GridViewHolder extends OpenPresenter.ViewHolder {
 
     public ImageView iv;
     public TextView tv;
-    public TextView head_tv;
+    public TextView statusV;
 
     public GridViewHolder(View itemView) {
         super(itemView);
         iv = (ImageView) itemView.findViewById(R.id.imageView);
         tv = (TextView) itemView.findViewById(R.id.textView);
+        statusV = (TextView) itemView.findViewById(R.id.statusView);
     }
 
 }

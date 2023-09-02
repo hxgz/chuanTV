@@ -18,6 +18,9 @@ public class VideoInfoDO implements Serializable {
     private String imgUrl;
 
     private String videoId;
+
+    // 动态
+    private String status;
 }
 
     

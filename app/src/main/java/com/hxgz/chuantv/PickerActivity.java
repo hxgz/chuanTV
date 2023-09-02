@@ -12,7 +12,6 @@ import com.hxgz.chuantv.dataobject.TVPickerDO;
 import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.extractors.TVExtractor;
 import com.hxgz.chuantv.utils.IntentUtil;
-import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.ImageCardView.RecyclerViewPresenter;
 import com.hxgz.chuantv.widget.TextPickerViewList;
@@ -123,7 +122,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
             TVPickParam pickerData = pickerViewList.getPickerData();
             if (null != pickerData) tvPickParamList.add(pickerData);
         }
-        LogUtil.e(tvPickParamList.toString());
+
         new Thread(new Runnable() {
             @SneakyThrows
             @Override

@@ -31,6 +31,7 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
 
     String searchText;
     int pageSize = 1;
+    int initSizeMin = 20;
     boolean noMore = false;
 
     SearchView searchView;
@@ -81,9 +82,7 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
         mRecyclerView = (RecyclerViewTV) findViewById(R.id.recyclerView2);
 
         mMainUpView = (MainUpView) findViewById(R.id.mainUpView2);
-        mMainUpView.setEffectBridge(new
-
-                RecyclerViewBridge());
+        mMainUpView.setEffectBridge(new RecyclerViewBridge());
         mRecyclerViewBridge = (RecyclerViewBridge) mMainUpView.getEffectBridge();
         float density = getResources().getDisplayMetrics().density;
         RectF receF = new RectF(
@@ -149,6 +148,10 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
                             mRecyclerViewPresenter.addDatas(videoInfoDOList);
                             pageSize++;
                             mRecyclerView.setOnLoadMoreComplete();
+
+                            if (!noMore && mRecyclerViewPresenter.getItemCount() < initSizeMin) {
+                                search(text);
+                            }
                         }
                     });
                 } catch (Exception e) {

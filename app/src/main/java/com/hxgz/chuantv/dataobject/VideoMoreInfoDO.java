@@ -3,7 +3,6 @@ package com.hxgz.chuantv.dataobject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,9 +16,6 @@ public class VideoMoreInfoDO extends VideoInfoDO {
     private static final long serialVersionUID = -9094794434759279268L;
 
     private String aliasTitle;
-
-    // 动态
-    private String status;
 
     // 描述
     private String desc;

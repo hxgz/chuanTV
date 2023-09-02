@@ -11,6 +11,7 @@ import com.hxgz.chuantv.R;
 import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.utils.ImageUtil;
 import com.open.androidtvwidget.leanback.mode.DefualtListPresenter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Leanback 横向item demo.
@@ -55,6 +56,11 @@ public class TestMoviceListPresenter extends DefualtListPresenter {
         //
         TextView tv = (TextView) openCardView.findViewById(R.id.title_tv);
         tv.setText(videoInfoDO.getTitle());
+        TextView statusV = (TextView) openCardView.findViewById(R.id.status_tv);
+        if (StringUtils.isNoneBlank(videoInfoDO.getStatus())) {
+            statusV.setText(videoInfoDO.getStatus());
+            statusV.setVisibility(View.VISIBLE);
+        }
 
         openCardView.setAlpha(1.0f);
 

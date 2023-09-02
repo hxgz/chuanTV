@@ -10,6 +10,7 @@ import com.hxgz.chuantv.dataobject.VideoInfoDO;
 import com.hxgz.chuantv.utils.ImageUtil;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
 import com.open.androidtvwidget.leanback.mode.OpenPresenter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,12 @@ public class RecyclerViewPresenter extends OpenPresenter {
 
         ImageUtil.displayImage(imageView, videoInfo.getImgUrl());
         textView.setText(videoInfo.getTitle());
+
+        TextView statusV = (TextView) gridViewHolder.statusV;
+        if (StringUtils.isNoneBlank(videoInfo.getStatus())) {
+            statusV.setText(videoInfo.getStatus());
+            statusV.setVisibility(View.VISIBLE);
+        }
     }
 
 }

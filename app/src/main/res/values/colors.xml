@@ -22,6 +22,7 @@
     <color name="white_70">#B2FFFFFF</color>
     <color name="white_90">#E6FFFFFF</color>
     <color name="yellow_90">#E6FFEB3B</color>
+    <color name="golden">#ecc356</color>
 
     <color name="app_text_light">#FAFAFA</color>
     <color name="app_button_inactive">#FAFAFA</color>
