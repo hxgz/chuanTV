@@ -69,13 +69,13 @@ public class HomeActivity extends BackPressActivity implements RecyclerViewTV.On
         tvExtractor = App.getTVForSearch();
 
         // 直播
-        findViewById(R.id.liveTvAction).setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                findViewById(R.id.searchAction).requestFocus();
-                Intent detailIntent = new Intent(HomeActivity.this, PlaybackActivity.class);
-                startActivity(detailIntent);
-            }
-        });
+//        findViewById(R.id.liveTvAction).setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                findViewById(R.id.searchAction).requestFocus();
+//                Intent detailIntent = new Intent(HomeActivity.this, PlaybackActivity.class);
+//                startActivity(detailIntent);
+//            }
+//        });
 
         View searchAction = findViewById(R.id.searchAction);
         searchAction.setOnClickListener(new View.OnClickListener() {

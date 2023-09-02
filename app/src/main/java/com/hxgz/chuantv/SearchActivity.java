@@ -138,7 +138,7 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
             @Override
             public void run() {
                 try {
-                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.search(text, pageSize++);
+                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.search(text, pageSize);
                     if (CollectionUtils.isEmpty(videoInfoDOList)) {
                         noMore = true;
                         return;
@@ -147,11 +147,13 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
                         @Override
                         public void run() {
                             mRecyclerViewPresenter.addDatas(videoInfoDOList);
+                            pageSize++;
                             mRecyclerView.setOnLoadMoreComplete();
                         }
                     });
                 } catch (Exception e) {
                     NoticeUtil.show(SearchActivity.this, "发生异常,请重试");
+                    mRecyclerView.setOnLoadMoreComplete();
                     return;
                 }
             }

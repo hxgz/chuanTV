@@ -28,7 +28,6 @@ import com.hxgz.chuantv.playback.PlaybackService;
 import com.hxgz.chuantv.playback.PlaybackServiceListener;
 import com.hxgz.chuantv.utils.DebugUtil;
 import com.hxgz.chuantv.utils.IntentUtil;
-import com.hxgz.chuantv.utils.LogUtil;
 import com.hxgz.chuantv.utils.NoticeUtil;
 import com.hxgz.chuantv.widget.PlayerControlView;
 import com.hxgz.chuantv.widget.ScrollViewList;
@@ -186,7 +185,7 @@ public class VideoDetailActivity extends BackPressActivity {
                     NoticeUtil.show(VideoDetailActivity.this, "发生异常,请重试");
                     return;
                 }
-                LogUtil.e(videoDetailDO.toString());
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -286,8 +285,27 @@ public class VideoDetailActivity extends BackPressActivity {
 
         playerControlView.setTitle(videoDetailDO.getInfoDO().getTitle() + " - " + videoFileDO.getTitle());
         if (null != playbackService) {
-            playbackService.loadMedia(Uri.parse(videoFileDO.getUrl()), true, startTime);
-            hasPlay = true;
+
+            new Thread(new Runnable() {
+                public void run() {
+                    String videoAddress;
+                    try {
+                        videoAddress = tvExtractor.getVideoAddress(videoFileDO.getUrl());
+                    } catch (Exception e) {
+                        NoticeUtil.show(VideoDetailActivity.this, "发生异常,请重试");
+                        return;
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            playbackService.loadMedia(Uri.parse(videoAddress), true, startTime);
+                            hasPlay = true;
+                        }
+                    });
+                }
+            }).start();
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.hxgz.chuantv.dataobject;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -15,12 +16,11 @@ public class TVPickerDO {
 
     private String topic;
 
-    // private Boolean multiSelect;
-
     private String defaultSelectItemValue;
 
     private List<ItemDO> itemList;
 
+    @NoArgsConstructor
     @Data
     public static class ItemDO {
 
@@ -28,6 +28,11 @@ public class TVPickerDO {
 
         private String show;
 
-        List<ItemDO> childrenList;
+        List<TVPickerDO> childrenList;
+
+        public ItemDO(String valueAndShow) {
+            value = valueAndShow;
+            show = valueAndShow;
+        }
     }
 }

@@ -129,7 +129,7 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
             @Override
             public void run() {
                 try {
-                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.pickTV(tvPickParamList, pickerPage++);
+                    final List<VideoInfoDO> videoInfoDOList = tvExtractor.pickTV(tvPickParamList, pickerPage);
                     if (CollectionUtils.isEmpty(videoInfoDOList)) {
                         PickerActivity.this.noMore = true;
                         return;
@@ -139,11 +139,13 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
                         @Override
                         public void run() {
                             mRecyclerViewPresenter.addDatas(videoInfoDOList);
+                            pickerPage++;
                             mRecyclerView.setOnLoadMoreComplete();
                         }
                     });
                 } catch (Exception e) {
                     NoticeUtil.show(PickerActivity.this, "发生异常,请重试");
+                    mRecyclerView.setOnLoadMoreComplete();
                     return;
                 }
             }

@@ -10,6 +10,9 @@ import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author zhoujianwu
@@ -25,7 +28,7 @@ public class TextPickerViewList {
 
     ScrollViewList scrollViewList;
 
-    TextPickerViewList childPickerViewList;
+    List<TextPickerViewList> childPickerViewLists;
 
     private onClickListen mOnClickListen;
 
@@ -69,21 +72,24 @@ public class TextPickerViewList {
 
     public void setSelectedPosition(int position) {
         scrollViewList.selectItem(position);
-        if (null != childPickerViewList) {
-            childPickerViewList.scrollViewList.removeAllViews();
-            childPickerViewList = null;
+        if (CollectionUtils.isNotEmpty(childPickerViewLists)) {
+            childPickerViewLists.forEach(childPickerViewList -> childPickerViewList.scrollViewList.removeAllViews());
+            childPickerViewLists = null;
         }
 
         TVPickerDO.ItemDO itemDO = tvPickerDO.getItemList().get(position);
         if (!CollectionUtils.isEmpty(itemDO.getChildrenList())) {
-            TVPickerDO childPickerDO = new TVPickerDO();
-            childPickerDO.setTopic(tvPickerDO.getTopic());
-            childPickerDO.setItemList(itemDO.getChildrenList());
-
-            childPickerViewList = new TextPickerViewList(parent, parent.indexOfChild(scrollViewList) + 1);
-            childPickerViewList.setTvPickerDO(childPickerDO);
-            childPickerViewList.setMOnClickListen(mOnClickListen);
-            childPickerViewList.asView();
+            AtomicInteger parentPosition = new AtomicInteger(parent.indexOfChild(scrollViewList));
+            if (CollectionUtils.isNotEmpty(itemDO.getChildrenList())) {
+                childPickerViewLists = itemDO.getChildrenList().stream()
+                        .map(childTVPickerDO -> {
+                            TextPickerViewList childPickerViewList = new TextPickerViewList(parent, parentPosition.incrementAndGet());
+                            childPickerViewList.setTvPickerDO(childTVPickerDO);
+                            childPickerViewList.setMOnClickListen(mOnClickListen);
+                            childPickerViewList.asView();
+                            return childPickerViewList;
+                        }).collect(Collectors.toList());
+            }
         }
 
     }
@@ -99,15 +105,14 @@ public class TextPickerViewList {
         TVPickParam tvPickParam = new TVPickParam();
         tvPickParam.setTopic(tvPickerDO.getTopic());
         tvPickParam.setValue(itemDO.getValue());
-        tvPickParam.setValueDepth(new ArrayList() {{
-            add(itemDO.getValue());
-        }});
+        tvPickParam.setValueDepth(new ArrayList());
 
-        if (null != childPickerViewList) {
-            TVPickParam childPickerData = childPickerViewList.getPickerData();
-            if (null != childPickerData && !CollectionUtils.isEmpty(childPickerData.getValueDepth())) {
-                tvPickParam.getValueDepth().addAll(childPickerData.getValueDepth());
-            }
+        if (CollectionUtils.isNotEmpty(childPickerViewLists)) {
+            childPickerViewLists.forEach(childPickerViewList -> {
+                if(null!= childPickerViewList.getPickerData()){
+                    tvPickParam.getValueDepth().add(childPickerViewList.getPickerData());
+                }
+            });
         }
         return tvPickParam;
     }

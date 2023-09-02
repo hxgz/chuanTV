@@ -17,6 +17,6 @@ public class TVPickParam {
 
     private String value;
 
-    private List<String> valueDepth;
+    private List<TVPickParam> valueDepth;
 
 }

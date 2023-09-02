@@ -8,64 +8,36 @@
         "show": "电视剧",
         "childrenList": [
           {
-            "value": "12",
-            "show": "大陆剧"
-          },
-          {
-            "value": "13",
-            "show": "港台剧"
-          },
-          {
-            "value": "14",
-            "show": "日韩剧"
-          },
-          {
-            "value": "15",
-            "show": "欧美剧"
-          },
-          {
-            "value": "17",
-            "show": "新马泰"
+            "topic": "category",
+            "defaultSelectItemValue": "33",
+            "itemList": [
+              {
+                "value": "33",
+                "show": "国产"
+              },
+              {
+                "value": "34",
+                "show": "港台"
+              },
+              {
+                "value": "35",
+                "show": "日韩"
+              },
+              {
+                "value": "36",
+                "show": "欧美"
+              },
+              {
+                "value": "37",
+                "show": "其他"
+              }
+            ]
           }
         ]
       },
       {
         "value": "1",
-        "show": "电影",
-        "childrenList": [
-          {
-            "value": "5",
-            "show": "动作片"
-          },
-          {
-            "value": "6",
-            "show": "喜剧片"
-          },
-          {
-            "value": "7",
-            "show": "爱情片"
-          },
-          {
-            "value": "8",
-            "show": "科幻片"
-          },
-          {
-            "value": "9",
-            "show": "恐怖片"
-          },
-          {
-            "value": "10",
-            "show": "剧情片"
-          },
-          {
-            "value": "11",
-            "show": "战争片"
-          },
-          {
-            "value": "16",
-            "show": "纪录片"
-          }
-        ]
+        "show": "电影"
       },
       {
         "value": "4",

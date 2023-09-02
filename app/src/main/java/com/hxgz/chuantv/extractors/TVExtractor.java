@@ -1,7 +1,6 @@
 package com.hxgz.chuantv.extractors;
 
 import com.hxgz.chuantv.dataobject.*;
-import com.hxgz.chuantv.exception.BizException;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface TVExtractor {
     /**
      * 导航页
      */
-    VideoSectionPageDO previewNav(String navId) throws Exception;
+    VideoSectionPageDO previewNav(String navId);
 
     /**
      * 影片详情
@@ -38,4 +37,8 @@ public interface TVExtractor {
      * 片名搜索
      */
     List<VideoInfoDO> search(String word, int page) throws Exception;
+
+    default String getVideoAddress(String url) {
+        return url;
+    }
 }
