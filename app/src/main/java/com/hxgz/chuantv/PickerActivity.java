@@ -1,11 +1,11 @@
 package com.hxgz.chuantv;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hxgz.chuantv.dataobject.TVPickParam;
 import com.hxgz.chuantv.dataobject.TVPickerDO;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author zhoujianwu
  * @description：
  */
-public class PickerActivity extends Activity implements RecyclerViewTV.OnItemListener {
+public class PickerActivity extends BackPressActivity implements RecyclerViewTV.OnItemListener {
     TVExtractor tvExtractor;
 
     String refer;
@@ -95,9 +95,15 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
                                     PickerActivity.this.noMore = false;
                                     mRecyclerViewPresenter.clearData();
                                     loadData();
+                                    setBeforeCloseFocusView(view);
                                 }
                             });
                             listView.asView();
+
+                            View defaultSelectView = listView.getScrollViewList().getSelectedItems().stream().findFirst().orElse(null);
+                            if (null != defaultSelectView) {
+                                setBeforeCloseFocusView(defaultSelectView);
+                            }
 
                             pickerViewList.add(listView);
                         }
@@ -198,6 +204,15 @@ public class PickerActivity extends Activity implements RecyclerViewTV.OnItemLis
         mRecyclerViewBridge.setFocusView(itemView, 1.2f);
     }
 
+    @Override
+    public void onBackPressed() {
+        final View currentFocus = getCurrentFocus();
+        if (currentFocus instanceof TextView) {
+            setBeforeCloseFocusView(currentFocus);
+        }
+        setHintsWhenClose(false);
+        super.onBackPressed();
+    }
 }
 
     

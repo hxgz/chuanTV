@@ -410,4 +410,10 @@ public class VideoDetailActivity extends BackPressActivity {
         super.onDestroy();
         stopService(new Intent(this, PlaybackService.class));
     }
+
+    @Override
+    public void onBackPressed() {
+        setHintsWhenClose(false);
+        super.onBackPressed();
+    }
 }

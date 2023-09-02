@@ -184,6 +184,7 @@ public class SearchActivity extends BackPressActivity implements RecyclerViewTV.
         if (currentFocus instanceof AutoCompleteTextView) {
             setBeforeCloseFocusView(currentFocus);
         }
+        setHintsWhenClose(false);
 
         super.onBackPressed();
     }

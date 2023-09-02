@@ -18,12 +18,19 @@ public class BackPressActivity extends Activity {
 
     View beforeCloseFocusView;
 
+    private boolean hintsWhenClose;
+
     public void setBeforeCloseFocusView(View view) {
         beforeCloseFocusView = view;
     }
 
+    public void setHintsWhenClose(boolean hintsWhenClose) {
+        this.hintsWhenClose = hintsWhenClose;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hintsWhenClose = true;
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler((crashThread, ex) -> {
             final String stackTrace = DebugUtil.getStackTrace(ex);
@@ -47,7 +54,7 @@ public class BackPressActivity extends Activity {
             return;
         }
 
-        if (mBackPressed <= System.currentTimeMillis()) {
+        if (hintsWhenClose && mBackPressed <= System.currentTimeMillis()) {
             mBackPressed = TvConst.TIME_INTERVAL + System.currentTimeMillis();
             NoticeUtil.show(getBaseContext(), "按【返回键】退出");
             return;

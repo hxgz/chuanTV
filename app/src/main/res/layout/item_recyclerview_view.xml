@@ -17,28 +17,25 @@
             android:scaleType="fitXY">
     </ImageView>
 
+    <TextView
+            android:id="@+id/statusView"
+            android:text=""
+            android:textColor="@color/orange"
+            android:background="@color/golden"
+            android:textSize="10sp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/h_8"
+            android:padding="@dimen/h_4"
+            android:visibility="invisible"
+            android:maxLines="1"/>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/statusView"
-                android:text=""
-                android:textColor="@color/white"
-                android:background="@color/golden"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/h_8"
-                android:layout_marginBottom="@dimen/h_8"
-                android:layout_marginRight="@dimen/h_8"
-                android:padding="@dimen/h_4"
-                android:visibility="invisible"
-                android:maxLines="1"/>
 
         <TextView
                 android:id="@+id/textView"
